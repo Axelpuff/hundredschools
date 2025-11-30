@@ -34,14 +34,14 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 camera.position.y = 20; // above
-camera.position.z = -50; // to the left end of the guqin
+camera.position.z = 45; // to the left end of the guqin
 camera.rotation.x = - Math.PI / 2; // looking down
 camera.rotation.z = Math.PI / 2; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
 
 
-const controls = new OrbitControls(camera, canvas);
+/* const controls = new OrbitControls(camera, canvas);
 controls.target.z = 60;
-controls.update();
+controls.update(); */
 
 const envLoader = new THREE.TextureLoader();
 const env = await envLoader.loadAsync('assets/images/footprint_court.jpg');
@@ -177,14 +177,13 @@ function clearPickPosition() {
 }
 
 function renderPickedPhil() {
-    // reset philosopher from last frame
+    // handle leftover philosopher text from last frame
     if (pickedPhil) {
         // eventually the hover texts will fade in and out so we have to assume
         // there might be multiple at once
         const lastPhilHovers = hoverText.getElementsByClassName(pickedPhil.id);
         // for now just remove all of them (no transition)
         for (const lastPhilHover of lastPhilHovers) {
-            console.log(lastPhilHover);
             hoverText.removeChild(lastPhilHover);
         }
         pickedPhil = null;
@@ -250,6 +249,18 @@ function handleResize() {
 }
 
 window.addEventListener("resize", handleResize);
+
+// scrolling
+const scrollArea = document.getElementById("scroll-area");
+const scroll_start_z = 50; // positive x is towards the narrow end
+const scroll_end_z = -50;
+function handleScroll(event) {
+    const maxScroll = scrollArea.clientHeight - window.innerHeight;
+    const scrollPercent = window.scrollY / maxScroll;
+    
+    camera.position.z = scrollPercent * (scroll_end_z - scroll_start_z) + scroll_start_z;
+}
+window.addEventListener("scroll", handleScroll);
 
 // rendering
 

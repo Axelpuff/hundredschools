@@ -11,6 +11,7 @@
     top: 0;
     left: 0;
     overflow: hidden;
+    z-index: 0;
 }
 
 #experience-canvas {
@@ -23,7 +24,7 @@
     left: 0;
     top: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 1;
     display: block;
 }
 
@@ -36,6 +37,7 @@
     text-align: center;
     font-size: large;
 }
-#overlay>div:hover {
-    color:gray /* this should actually be gray on *orb* hover, not implemented this way */
+
+#scroll-area {
+    height: 500vh;
 }
