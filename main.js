@@ -90,14 +90,17 @@ function get_orb_position(timePosition, string) {
 
 // create philosopher orbs
 const spheregeom = new THREE.SphereGeometry( 1, 32, 16 );
+const orbs = [];
 for (const philosopher of philosophers) {
     const color = schoolMap[philosopher.school].color;
     const spheremat = new THREE.MeshBasicMaterial( { color: color } );
 
     const sphere = new THREE.Mesh( spheregeom, spheremat );
+    sphere.name = philosopher.id;
     console.log(get_orb_position(philosopher.timePosition, philosopher.string));
-    sphere.position.copy((get_orb_position(philosopher.timePosition, philosopher.string)).point);
+    sphere.position.copy(get_orb_position(philosopher.timePosition, philosopher.string).point);
     scene.add( sphere );
+    orbs.push( sphere );
 }
 
 // guqin model
@@ -144,32 +147,92 @@ scene.add(guqin.scene);
 //      exit button/back arrow is on this pane. Revert to previous right pane when clicked
 // click (on philosopher X): either revert to default specific view, or do nothing if already in specific view
 
-const pickedPhil = null;
+const hoverText = document.getElementById("overlay");
+let pickedPhil = null;
+const pickRayCaster = new THREE.Raycaster();
+const pickPosition = new THREE.Vector2(0, 0);
+
+// these three functions copied from Three.js picking manual
+function getCanvasRelativePosition(event) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: (event.clientX - rect.left) * canvas.width  / rect.width,
+    y: (event.clientY - rect.top ) * canvas.height / rect.height,
+  };
+}
+
+function setPickPosition(event) {
+  const pos = getCanvasRelativePosition(event);
+  pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
+  pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+}
+
+function clearPickPosition() {
+  // unlike the mouse which always has a position
+  // if the user stops touching the screen we want
+  // to stop picking. For now we just pick a value
+  // unlikely to pick something
+  pickPosition.x = -100000;
+  pickPosition.y = -100000;
+}
 
 function renderPickedPhil() {
     // reset philosopher from last frame
     if (pickedPhil) {
-
+        // eventually the hover texts will fade in and out so we have to assume
+        // there might be multiple at once
+        const lastPhilHovers = hoverText.getElementsByClassName(pickedPhil.id);
+        // for now just remove all of them (no transition)
+        for (const lastPhilHover of lastPhilHovers) {
+            console.log(lastPhilHover);
+            hoverText.removeChild(lastPhilHover);
+        }
+        pickedPhil = null;
     }
+    // I guess the ideal would be to tween the existing hover if you come back to the same orb before
+    // the text fades. Maybe that's indistinguishable from just creating a new one though
+    pickRayCaster.setFromCamera(pickPosition, camera)
+    const intersections = pickRayCaster.intersectObjects(orbs, false);
+    if (intersections.length) {
+        const orb = intersections[0].object;
+        if (pickedPhil && orb.name == pickedPhil.id) {return;}
 
+        pickedPhil = philosopherMap[orb.name];
+        
+        const label = document.createElement("div");
+        label.textContent = pickedPhil.name;
+        label.classList.add(pickedPhil.id);
+        hoverText.appendChild(label);
+        // get the orb position
+        const tempPos = new THREE.Vector3();
+        orb.updateWorldMatrix(true, false); // necessary?
+        orb.getWorldPosition(tempPos);
+        //const tempPos = orb.position.project(camera);
+        tempPos.project(camera);
+        // convert to CSS coords
+        const x = (tempPos.x * .5 + .5) * canvas.clientWidth;
+        const y = (tempPos.y * -.5 + .5) * canvas.clientHeight;
+        // I don't understand this at all
+        label.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;
+    }
 }
 
-window.addEventListener('mousemove', set);
-window.addEventListener('mouseout', clear);
-window.addEventListener('mouseleave', clear);
+window.addEventListener('mousemove', setPickPosition);
+window.addEventListener('mouseout', clearPickPosition);
+window.addEventListener('mouseleave', clearPickPosition);
 
 // mobile support
 window.addEventListener('touchstart', (event) => {
     // prevent the window from scrolling
     event.preventDefault();
-    set(event.touches[0]);
+    setPickPosition(event.touches[0]);
 }, {passive: false});
     
 window.addEventListener('touchmove', (event) => {
-    set(event.touches[0]);
+    setPickPosition(event.touches[0]);
 });
     
-window.addEventListener('touchend', clear);
+window.addEventListener('touchend', clearPickPosition);
 
 // window resize handling
 
@@ -191,6 +254,7 @@ window.addEventListener("resize", handleResize);
 // rendering
 
 function animate() {
+    renderPickedPhil();
     renderer.render(scene, camera);
 }
 

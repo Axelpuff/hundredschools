@@ -18,11 +18,24 @@
     height: 100%;
 }
 
-#hover-text {
+#overlay {
     position: absolute;
-    top: 10px;
+    left: 0;
+    top: 0;
     width: 100%;
-    text-align: center;
     z-index: 100;
     display: block;
+}
+
+#overlay>div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    user-select: none; 
+    color:white;
+    text-align: center;
+    font-size: large;
+}
+#overlay>div:hover {
+    color:gray /* this should actually be gray on *orb* hover, not implemented this way */
 }
