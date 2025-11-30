@@ -3,6 +3,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { schools, philosophers } from './philosophers.js';
 
+const schoolMap = Object.fromEntries(
+    schools.map(p => [p.id, p])
+);
+const philosopherMap = Object.fromEntries(
+    philosophers.map(p => [p.id, p])
+);
+
 const orthoBoxHeight = 15
 
 const sizes = {
@@ -81,15 +88,10 @@ function get_orb_position(timePosition, string) {
     return intersections[0]; // these are both lines so there should only be one intersection
 }
 
-// orb test
+// create philosopher orbs
 const spheregeom = new THREE.SphereGeometry( 1, 32, 16 );
 for (const philosopher of philosophers) {
-    console.log(philosopher);
-    console.log(philosopher.id);
-    console.log(philosopher.school);
-    const color = schools.find((school) => {
-        return philosopher.school == school.id;
-    }).color;
+    const color = schoolMap[philosopher.school].color;
     const spheremat = new THREE.MeshBasicMaterial( { color: color } );
 
     const sphere = new THREE.Mesh( spheregeom, spheremat );
@@ -110,18 +112,66 @@ guqin.scene.traverse((obj) => {
     const mat = obj.material;
     if (!mat || !mat.isMeshStandardMaterial) return;
 
-    // Make sure base color isn’t killing the texture
-    // mat.color.set(0xffffff);
+    // fix guqin appearing as shiny black with no wood texture visible
     mat.vertexColors = false;
-
-    // Make it less mirror-like
-    // mat.metalness = 0.1;   // or something small like 0.1
-    // mat.roughness = 1;   // higher = more diffuse, texture more obvious
-
     mat.needsUpdate = true;
 });
 
 scene.add(guqin.scene);
+
+// philosopher picking
+// full philosopher picking flow (from neutral):
+// no hover: philosopher icons are visible on each orb
+// hover:
+//  romanized name appears in white text under orb
+//  if user hasn't clicked any orb yet, show text on bottom of screen: "click a philosopher to change to their view"
+// click:
+//  zither blurs and darkens into background, non-important orbs disappear
+//  important orbs rearrange into shape on left half of screen
+//  term-specific info appears on bottom third of screen
+//  main description appears on right half of screen
+//      exit button/back arrow is on this pane. Revert to neutral when clicked
+//
+// philosopher picking flow (from specific view of X):
+// no hover: only icons
+// hover:
+//  orb glows
+//  romanized name hover text
+//  if user hasn't clicked any orb yet from specific view, show text on bottom of screen: "click a philosopher to learn about X's view of them"
+// click:
+//  orb stays lit, others darken
+//  right pane now shows information about X's view on Y
+//      exit button/back arrow is on this pane. Revert to previous right pane when clicked
+// click (on philosopher X): either revert to default specific view, or do nothing if already in specific view
+
+const pickedPhil = null;
+
+function renderPickedPhil() {
+    // reset philosopher from last frame
+    if (pickedPhil) {
+
+    }
+
+}
+
+window.addEventListener('mousemove', set);
+window.addEventListener('mouseout', clear);
+window.addEventListener('mouseleave', clear);
+
+// mobile support
+window.addEventListener('touchstart', (event) => {
+    // prevent the window from scrolling
+    event.preventDefault();
+    set(event.touches[0]);
+}, {passive: false});
+    
+window.addEventListener('touchmove', (event) => {
+    set(event.touches[0]);
+});
+    
+window.addEventListener('touchend', clear);
+
+// window resize handling
 
 function handleResize() {
     sizes.width = window.innerWidth;
@@ -137,6 +187,8 @@ function handleResize() {
 }
 
 window.addEventListener("resize", handleResize);
+
+// rendering
 
 function animate() {
     renderer.render(scene, camera);
