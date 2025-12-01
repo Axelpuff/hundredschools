@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { schools, philosophers } from "./philosophers.js";
+import { gsap } from "https://cdn.jsdelivr.net/npm/gsap@3.13/+esm";
 
 const schoolMap = Object.fromEntries(schools.map((p) => [p.id, p]));
 const philosopherMap = Object.fromEntries(philosophers.map((p) => [p.id, p]));
@@ -18,12 +19,14 @@ const sizes = {
 const aspect = sizes.width / sizes.height;
 const scene = new THREE.Scene();
 const baseOrthoBoxHeight = 15;
-let orthoBoxHeight = baseOrthoBoxHeight;
+const renderInfo = {
+  orthoBoxHeight: baseOrthoBoxHeight,
+};
 const camera = new THREE.OrthographicCamera(
-  -aspect * orthoBoxHeight,
-  aspect * orthoBoxHeight,
-  orthoBoxHeight,
-  -orthoBoxHeight,
+  -aspect * renderInfo.orthoBoxHeight,
+  aspect * renderInfo.orthoBoxHeight,
+  renderInfo.orthoBoxHeight,
+  -renderInfo.orthoBoxHeight,
   0.1,
   1000
 );
@@ -200,6 +203,8 @@ const scrollArea = document.getElementById("scroll-area");
 const scroll_start_z = 50; // positive z is towards the narrow end
 const scroll_end_z = -50;
 function handleScroll(event) {
+  if (currentState != "neutral") return; // try to save computation
+
   const maxScroll = scrollArea.clientHeight - window.innerHeight;
   const scrollPercent = window.scrollY / maxScroll;
 
@@ -236,6 +241,7 @@ window.addEventListener("scroll", handleScroll);
 // Application state (updated on events)
 let currentState = "neutral"; // should be "intro" (implemented later), "neutral", or "perspective"
 let neutralPosZ = scroll_start_z; // saved state for returning to neutral
+let neutralScroll = 0; // saved state for neutral
 let transitioning = false;
 let selectedPhilId = null;
 let secondaryPhilId = null; // selected philosopher when in perspective already, null if not in perspective
@@ -253,20 +259,34 @@ orbPerspectiveAxis.rotation.z = Math.PI / 2;
 scene.add(orbPerspectiveAxis);
 const orbPerspectiveY = 15;
 
-function addProps(props, axis) {
-  for (const prop of props) {
+function addProps(props, axis, timeline) {
+  for (let i = 0; i < props.length; i++) {
+    const prop = props[i];
     const properties = prop.properties;
     if (prop.type == "arrow") {
       const arrow = new THREE.ArrowHelper(
         properties.dir,
         properties.origin || { x: 0, y: 0, z: 0 },
-        properties.length,
+        0,
         properties.color,
         properties.headLength,
         properties.headWidth
       );
-      //activeProps.push(arrow);
       axis.add(arrow);
+      // it's ok if the user goes back during this animation, the arrow will get cleared
+      // (unless GSAP has a memory leak?)
+      const arrowState = { length: 0 };
+      arrow.visible = false;
+      timeline.to(arrowState, {
+        duration: 0.25,
+        length: properties.length,
+        onStart: () => {
+          arrow.visible = true;
+        },
+        onUpdate: () => {
+          arrow.setLength(arrowState.length);
+        },
+      });
     }
   }
 }
@@ -282,6 +302,10 @@ function changeState(destState, destPhilId) {
 
   if (currentState == "neutral") {
     neutralPosZ = camera.position.z;
+    neutralScroll = window.scrollY;
+    // disable scrolling for other modes
+    scrollArea.style.overflow = "hidden";
+    scrollArea.style.height = "100%";
   } else if (currentState == "perspective") {
     selectedPhilId = null;
     secondaryPhilId = null;
@@ -290,9 +314,16 @@ function changeState(destState, destPhilId) {
 
   if (destState == "neutral") {
     // tween camera to neutralPosZ
-    orthoBoxHeight = baseOrthoBoxHeight;
+    renderInfo.orthoBoxHeight = baseOrthoBoxHeight;
     handleResize();
+    // allow scrolling
+    scrollArea.style.overflow = "auto";
+    scrollArea.style.height = "500vh"; // magic number
+
     camera.position.z = neutralPosZ;
+    window.scrollTo({top: neutralScroll, behavior: "instant"});
+    
+
 
     // unblur
     blurPlane.material.opacity = 0;
@@ -332,29 +363,83 @@ function changeState(destState, destPhilId) {
     orbPerspectiveAxis.position.y = orbPerspectiveY;
 
     // reparent orbs to axis
-    for (const orb of focusedOrbs) {
+    for (let i = 0; i < focusedOrbs.length; i++) {
+      const orb = focusedOrbs[i];
       const philosopherId = orb.name;
-      orbPerspectiveAxis.add(orb);
+      let targetWorldPos;
       if (philosopherId == destPhilId) {
-        orb.position.copy(selectedPhil.displayPosition);
+        // seems bad
+        const temp = new THREE.Vector3(
+          selectedPhil.displayPosition.x,
+          selectedPhil.displayPosition.y,
+          selectedPhil.displayPosition.z
+        );
+        targetWorldPos = orbPerspectiveAxis.localToWorld(temp);
       } else {
         const view = selectedPhil.views[philosopherId];
-        orb.position.copy(view.display.position);
+        const temp = new THREE.Vector3(
+          view.display.position.x,
+          view.display.position.y,
+          view.display.position.z
+        );
+        targetWorldPos = orbPerspectiveAxis.localToWorld(temp);
       }
+      let tl = gsap.timeline();
+      tl.to(orb.position, {
+        duration: 1,
+        delay: i * 0.1,
+        ease: "circ.out",
+        x: targetWorldPos.x,
+        y: targetWorldPos.y,
+        z: targetWorldPos.z,
+        onComplete: () => {
+          if (orb.parent == null) {
+            orbPerspectiveAxis.attach(orb);
+          }
+        },
+      }).to(
+        orb.position,
+        {
+          duration: 1,
+          delay: i * 0.1,
+          ease: "elastic.out(1.75,1)",
+          z: targetWorldPos.z,
+          onComplete: () => {
+            if (orb.parent == null) {
+              orbPerspectiveAxis.attach(orb);
+            }
+          },
+        },
+        0
+      );
+      //orb.position.copy(view.display.position);
+
       // tween other orbs around this orb
       // make these orbs glow more
     }
+    // tween camera z to orb position
+    let tl = gsap.timeline();
+    const bruhduration = 1;
+    tl.to(camera.position, {
+      duration: bruhduration,
+      z: orbPerspectiveAxis.position.z,
+    }).to(
+      renderInfo,
+      { duration: bruhduration, orthoBoxHeight: 25, onUpdate: handleResize },
+      0
+    ); // might be really slow
+    // blur everything that isn't focusedOrbs
+    tl.to(blurPlane.material, { duration: bruhduration, opacity: 0.8 }, 0).to(
+      directional,
+      { duration: bruhduration, intensity: 0 },
+      0
+    );
+
     // add props
     if (selectedPhil.displayProps) {
-      addProps(selectedPhil.displayProps, orbPerspectiveAxis);
+      addProps(selectedPhil.displayProps, orbPerspectiveAxis, tl);
     }
-    // tween camera z to orb position
-    camera.position.z = orbPerspectiveAxis.position.z;
-    orthoBoxHeight = 25;
-    handleResize();
-    // blur everything that isn't focusedOrbs
-    blurPlane.material.opacity = 0.8;
-    directional.intensity = 0;
+
     // fill panes with information
     const heading = document.querySelector("#right-panel > h1:first-of-type");
     const subheading = document.querySelector(
@@ -511,10 +596,10 @@ function handleResize() {
   sizes.height = window.innerHeight;
   const aspect = sizes.width / sizes.height;
   //duplicated
-  camera.left = -aspect * orthoBoxHeight;
-  camera.right = aspect * orthoBoxHeight;
-  camera.top = orthoBoxHeight;
-  camera.bottom = -orthoBoxHeight;
+  camera.left = -aspect * renderInfo.orthoBoxHeight;
+  camera.right = aspect * renderInfo.orthoBoxHeight;
+  camera.top = renderInfo.orthoBoxHeight;
+  camera.bottom = -renderInfo.orthoBoxHeight;
   camera.updateProjectionMatrix();
 
   renderer.setSize(sizes.width, sizes.height);

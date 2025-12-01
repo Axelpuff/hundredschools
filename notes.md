@@ -14,18 +14,21 @@ Intro to Neutral transition
 Neutral
 - no hover: philosopher icons are visible on each orb
 - hover:
-  - energy sound effect (concurrently)
+  - energy sound effect
   - orb glows more brightly
   - romanized name appears in white text under orb
   - if user hasn't clicked any orb yet, show text on bottom of screen: "click a philosopher to change to their view"
 
 Neutral to Perspective transition
 - click on orb:
-  - philosopher-specific chord (concurrently)
-  - zither blurs and darkens into background, non-important orbs disappear
-  - important orbs rearrange into shape on left half of screen
-  - term-specific info appears on bottom third of screen
-  - main description appears on right half of screen
+  1. (await for all of these before the next set)
+    - philosopher-specific chord
+    - zither blurs and darkens into background, non-important orbs disappear
+    - important orbs rearrange into shape in center of screen
+  2. 
+    - props appear (e.g. arrows lerp to full length)
+    - term-specific info appears on bottom third of screen
+    - main description appears on right half of screen
     - exit button/back arrow appears on this pane. Revert to neutral when clicked
 
 Philosopher picking flow (from specific view of X):
