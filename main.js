@@ -17,7 +17,8 @@ const sizes = {
 
 const aspect = sizes.width / sizes.height;
 const scene = new THREE.Scene();
-const orthoBoxHeight = 15;
+const baseOrthoBoxHeight = 15;
+let orthoBoxHeight = baseOrthoBoxHeight;
 const camera = new THREE.OrthographicCamera(
   -aspect * orthoBoxHeight,
   aspect * orthoBoxHeight,
@@ -61,7 +62,7 @@ const linemat = new THREE.LineBasicMaterial({
 });
 const staff_start_z = 62; // positive x is towards the narrow end
 const staff_end_z = -56;
-const staff_y = 6.5;
+const staff_y = 10;
 const width_start = 0.93;
 const width_end = 2.9;
 const points = [];
@@ -136,11 +137,16 @@ guqin.scene.traverse((obj) => {
 scene.add(guqin.scene);
 
 const planeGeom = new THREE.PlaneGeometry(200, 200, 1, 1);
-const planeMat = new THREE.MeshPhysicalMaterial({ transmission: 1, roughness: 0.4, transparent: true, opacity: 0});
-const planeMesh = new THREE.Mesh(planeGeom, planeMat);
-planeMesh.position.y = 8;
-planeMesh.rotation.x = -Math.PI / 2;
-scene.add(planeMesh);
+const planeMat = new THREE.MeshPhysicalMaterial({
+  transmission: 1,
+  roughness: 0.4,
+  transparent: true,
+  opacity: 0,
+});
+const blurPlane = new THREE.Mesh(planeGeom, planeMat);
+blurPlane.position.y = 12.5;
+blurPlane.rotation.x = -Math.PI / 2;
+scene.add(blurPlane);
 
 /*
 | Pointer state
@@ -183,15 +189,15 @@ function getPointedOrb() {
   return orb;
 }
 
-function getPointedPhil() {
-    const orb = getPointedOrb();
-    if (!orb) return null;
-    return orb.name;
+function getPointedPhilId() {
+  const orb = getPointedOrb();
+  if (!orb) return null;
+  return orb.name;
 }
 
 // scrolling
 const scrollArea = document.getElementById("scroll-area");
-const scroll_start_z = 50; // positive x is towards the narrow end
+const scroll_start_z = 50; // positive z is towards the narrow end
 const scroll_end_z = -50;
 function handleScroll(event) {
   const maxScroll = scrollArea.clientHeight - window.innerHeight;
@@ -232,128 +238,201 @@ let currentState = "neutral"; // should be "intro" (implemented later), "neutral
 let neutralPosZ = scroll_start_z; // saved state for returning to neutral
 let transitioning = false;
 let selectedPhilId = null;
+let secondaryPhilId = null; // selected philosopher when in perspective already, null if not in perspective
 
 const backButton = document.getElementById("back-button");
 const infoPanels = document.getElementById("info-panels");
 const leftPanel = document.getElementById("left-panel");
 const rightPanel = document.getElementById("right-panel");
 const bottomPanel = document.getElementById("bottom-panel");
-leftPanel.style.opacity = 0;
-console.log(rightPanel);
+
 const orbPerspectiveAxis = new THREE.Object3D();
+let activeProps = [];
+orbPerspectiveAxis.rotation.x = -Math.PI / 2;
+orbPerspectiveAxis.rotation.z = Math.PI / 2;
 scene.add(orbPerspectiveAxis);
 const orbPerspectiveY = 15;
 
+function addProps(props, axis) {
+  for (const prop of props) {
+    const properties = prop.properties;
+    if (prop.type == "arrow") {
+      const arrow = new THREE.ArrowHelper(
+        properties.dir,
+        properties.origin || { x: 0, y: 0, z: 0 },
+        properties.length,
+        properties.color,
+        properties.headLength,
+        properties.headWidth
+      );
+      //activeProps.push(arrow);
+      axis.add(arrow);
+    }
+  }
+}
+
+function clearProps(axis) {
+  axis.clear(); // dispose?
+}
+
 // this will get called outside the animate thread and so can wait and do other stuff
-function changeState(state) {
+function changeState(destState, destPhilId) {
   if (transitioning) return; // should the caller be responsible for this?
   transitioning = true;
-  if (state == "neutral") {
+
+  if (currentState == "neutral") {
+    neutralPosZ = camera.position.z;
+  } else if (currentState == "perspective") {
+    selectedPhilId = null;
+    secondaryPhilId = null;
+    clearProps(orbPerspectiveAxis);
+  }
+
+  if (destState == "neutral") {
     // tween camera to neutralPosZ
+    orthoBoxHeight = baseOrthoBoxHeight;
+    handleResize();
     camera.position.z = neutralPosZ;
 
     // unblur
-    planeMesh.material.opacity = 0;
+    blurPlane.material.opacity = 0;
     directional.intensity = 0.5; // magic number
 
     // reset orbs to original positions
     for (const orb of focusedOrbs) {
-        const philosopher = philosopherMap[orb.name];
-        scene.add(orb);
+      const philosopher = philosopherMap[orb.name];
+      scene.add(orb);
 
-        const timePosition = (philosopher.dates[0] + philosopher.dates[1])/2;
-        orb.position.copy(get_orb_position(timePosition, philosopher.string).point);
+      const timePosition = (philosopher.dates[0] + philosopher.dates[1]) / 2;
+      orb.position.copy(
+        get_orb_position(timePosition, philosopher.string).point
+      );
     }
     // reset focus to all orbs
     focusedOrbs = orbs.slice();
     // tween panes to transparency separately
     infoPanels.style.display = "none";
-  } else if (state == "perspective") {
+  } else if (destState == "perspective") {
     console.assert(currentState == "neutral");
-    console.assert(selectedPhilId);
+    console.assert(destPhilId);
+    console.assert(!secondaryPhilId);
 
-    neutralPosZ = camera.position.z;
+    selectedPhilId = destPhilId;
 
     // get relevant orbs
-    const philosopher = philosopherMap[selectedPhilId];
-    const mainOrb = orbMap[selectedPhilId];
+    const selectedPhil = philosopherMap[destPhilId];
+    const mainOrb = orbMap[destPhilId];
     focusedOrbs = [mainOrb];
-    for (const relationship of philosopher.relationships) {
-        focusedOrbs.push(orbMap[relationship.targetId]);
+    for (const philosopherId in selectedPhil.views) {
+      focusedOrbs.push(orbMap[philosopherId]);
     }
 
     // position perspective axis based on current orb location
     orbPerspectiveAxis.position.z = mainOrb.position.z;
     orbPerspectiveAxis.position.y = orbPerspectiveY;
 
-    // reparent other orbs to axis
-    console.log(focusedOrbs);
+    // reparent orbs to axis
     for (const orb of focusedOrbs) {
-        orbPerspectiveAxis.add(orb);
-        orb.position.copy({x: 0, y: 0, z: 0});
-        // tween other orbs around this orb
-        // make these orbs glow more
+      const philosopherId = orb.name;
+      orbPerspectiveAxis.add(orb);
+      if (philosopherId == destPhilId) {
+        orb.position.copy(selectedPhil.displayPosition);
+      } else {
+        const view = selectedPhil.views[philosopherId];
+        orb.position.copy(view.display.position);
+      }
+      // tween other orbs around this orb
+      // make these orbs glow more
+    }
+    // add props
+    if (selectedPhil.displayProps) {
+      addProps(selectedPhil.displayProps, orbPerspectiveAxis);
     }
     // tween camera z to orb position
     camera.position.z = orbPerspectiveAxis.position.z;
-    camera.position.y = 25
+    orthoBoxHeight = 25;
+    handleResize();
     // blur everything that isn't focusedOrbs
-    planeMesh.material.opacity = 0.8;
+    blurPlane.material.opacity = 0.8;
     directional.intensity = 0;
     // fill panes with information
     const heading = document.querySelector("#right-panel > h1:first-of-type");
-    const subheading = document.querySelector("#right-panel > h2:first-of-type");
-    const description = document.querySelector("#right-panel > p:first-of-type");
-    heading.textContent = philosopher.name + " - " + philosopher.chineseName;
-    subheading.textContent = schoolMap[philosopher.school].name;
-    description.textContent = philosopher.description || "Description pending";
+    const subheading = document.querySelector(
+      "#right-panel > h2:first-of-type"
+    );
+    const description = document.querySelector(
+      "#right-panel > p:first-of-type"
+    );
+    heading.textContent = selectedPhil.name + " - " + selectedPhil.chineseName;
+    subheading.textContent = schoolMap[selectedPhil.school].name;
+    description.textContent = selectedPhil.description || "Description pending";
 
     bottomPanel.replaceChildren();
     //const subpanels = [];
-    for (const term of philosopher.keyTerms) {
-        const subpanel = document.createElement("div");
-        const termHead = document.createElement("h1");
-        const termDesc = document.createElement("p");
-        termHead.textContent = term.term + " (" + term.pinyin + ")";
-        termDesc.textContent = term.description;
-        subpanel.appendChild(termHead);
-        subpanel.appendChild(termDesc);
-        bottomPanel.appendChild(subpanel);
-        //subpanels.push(subpanel);
+    for (const term of selectedPhil.keyTerms) {
+      const subpanel = document.createElement("div");
+      const termHead = document.createElement("h1");
+      const termDesc = document.createElement("p");
+      termHead.textContent = term.term + " (" + term.pinyin + ")";
+      termDesc.textContent = term.description;
+      subpanel.appendChild(termHead);
+      subpanel.appendChild(termDesc);
+      bottomPanel.appendChild(subpanel);
+      //subpanels.push(subpanel);
     }
-    //console.log(subpanels);
     //bottomPanel.appendChild(subpanels);
 
     // show panes on right side and bottom
     // tween pane opacity
+    leftPanel.style.opacity = 0;
     infoPanels.style.display = "block";
-  } else if (state == "intro") {
+  } else if (destState == "intro") {
     console.assert(currentState == "neutral");
-    neutralPosZ = camera.position.z;
   } else {
-    throw "Error: invalid state " + state;
+    throw "Error: invalid destination state " + destState;
   }
-  currentState = state;
+  currentState = destState;
   transitioning = false;
 }
 
+function showSecondary(destPhilId) {
+  if (destPhilId == selectedPhilId) destPhilId = null;
+  secondaryPhilId = destPhilId;
+  if (!destPhilId) {
+    leftPanel.style.opacity = 0;
+    return;
+  }
+  const heading = document.querySelector("#left-panel > h1:first-of-type");
+  const subheading = document.querySelector("#left-panel > h2:first-of-type");
+  const description = document.querySelector("#left-panel > p:first-of-type");
+
+  const view = philosopherMap[selectedPhilId].views[destPhilId];
+  const secondaryPhil = philosopherMap[destPhilId];
+
+  heading.textContent = secondaryPhil.name + " - " + secondaryPhil.chineseName;
+  subheading.textContent = view.quote;
+  description.textContent = view.explanation || "Description pending";
+  leftPanel.style.opacity = 1;
+}
+
 function onPointerDown(event) {
-    const pointedPhil = getPointedPhil();
-    if (!pointedPhil) return;
-    if (currentState == "neutral") {
-        selectedPhilId = pointedPhil;
-        changeState("perspective")
-    }
+  const pointedPhilId = getPointedPhilId();
+  if (!pointedPhilId) return;
+  if (currentState == "neutral") {
+    changeState("perspective", pointedPhilId);
+  } else if (currentState == "perspective") {
+    showSecondary(pointedPhilId);
+  }
 }
 
 function onBackButtonPress(event) {
-    if (currentState == "neutral") {
-        // go back to intro
-    } else if (currentState == "perspective") {
-        // go back to neutral
-        selectedPhilId = null;
-        changeState("neutral");
-    }
+  if (currentState == "neutral") {
+    // go back to intro
+  } else if (currentState == "perspective") {
+    // go back to neutral
+    selectedPhilId = null;
+    changeState("neutral");
+  }
 }
 window.addEventListener("pointerdown", onPointerDown);
 backButton.addEventListener("click", onBackButtonPress);
@@ -434,6 +513,8 @@ function handleResize() {
   //duplicated
   camera.left = -aspect * orthoBoxHeight;
   camera.right = aspect * orthoBoxHeight;
+  camera.top = orthoBoxHeight;
+  camera.bottom = -orthoBoxHeight;
   camera.updateProjectionMatrix();
 
   renderer.setSize(sizes.width, sizes.height);

@@ -13,7 +13,15 @@ body {
 
 #info-panels {
     display: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 2;
 }
+
 #left-panel {
     position: absolute;
     height: 50%;
@@ -24,6 +32,7 @@ body {
 
 #right-panel {
     position: absolute;
+    overflow: scroll;
     height: 50%;
     width: 30%;
     top: 20%;
@@ -104,14 +113,4 @@ body {
     color:white;
     text-align: center;
     font-size: large;
-}
-
-#info-panels {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    z-index: 2;
 }
