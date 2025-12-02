@@ -339,6 +339,10 @@ function addProps(props, axis, timeline, startTime) {
   }
 }
 
+function clearProps(axis) {
+  axis.clear(); // dispose?
+}
+
 // UI panes
 const backButton = document.getElementById("back-button");
 const infoPanels = document.getElementById("info-panels");
@@ -347,21 +351,38 @@ const rightPanel = document.getElementById("right-panel");
 const bottomPanel = document.getElementById("bottom-panel");
 function fillPanes(selectedPhil) {
   // fill panes with information
-  const heading = document.querySelector("#right-panel > h1:first-of-type");
-  const subheading = document.querySelector("#right-panel > h2:first-of-type");
-  const description = document.querySelector("#right-panel > p:first-of-type");
-  heading.textContent = selectedPhil.name + " - " + selectedPhil.chineseName;
+  const heading = document.querySelector("#right-panel > div:first-of-type");
+  const subheading = document.querySelector("#right-panel > h4:first-of-type");
+  const headCN = heading.querySelector(".cn");
+  const headEN = heading.querySelector(".en");
+  if (selectedPhil.description) {
+  for (const paragraphText of selectedPhil.description) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = paragraphText;
+    rightPanel.appendChild(paragraph);
+  }
+}
+  headCN.textContent = selectedPhil.chineseName;
+  headEN.textContent = selectedPhil.name;
   subheading.textContent = schoolMap[selectedPhil.school].name;
-  description.textContent = selectedPhil.description || "Description pending";
+  //description.textContent = selectedPhil.description || "Description pending";
 
   bottomPanel.replaceChildren();
   //const subpanels = [];
   for (const term of selectedPhil.keyTerms) {
     const subpanel = document.createElement("div");
     const termHead = document.createElement("h1");
+    const cn = document.createElement("span");
+    const en = document.createElement("span");
     const termDesc = document.createElement("p");
-    termHead.textContent = term.term + " (" + term.pinyin + ")";
+    cn.className = "cn";
+    en.className = "en";
+    subpanel.className = "card p-2 mb-2 w-25"
+    cn.textContent = term.term;
+    en.textContent = " (" + term.pinyin + ")";
     termDesc.textContent = term.description;
+    termHead.appendChild(cn);
+    termHead.appendChild(en);
     subpanel.appendChild(termHead);
     subpanel.appendChild(termDesc);
     bottomPanel.appendChild(subpanel);
@@ -459,10 +480,6 @@ let transitioning = false;
 let selectedPhilId = null;
 let secondaryPhilId = null; // selected philosopher when in perspective already, null if not in perspective
 
-function clearProps(axis) {
-  axis.clear(); // dispose?
-}
-
 // this will get called outside the animate thread and so can wait and do other stuff
 function changeState(destState, destPhilId) {
   console.log(transitioning);
@@ -478,26 +495,28 @@ function changeState(destState, destPhilId) {
     },
   });
 
+  let startTime = 0;
   if (currentState == "neutral") {
     saveScroll();
   } else if (currentState == "perspective") {
     selectedPhilId = null;
     secondaryPhilId = null;
+    resetFocusedOrbs(tl, startTime, resetDuration);
+    startTime += resetDuration * 2;
     clearProps(orbPerspectiveAxis);
   }
 
   if (destState == "neutral") {
     console.assert(currentState != "neutral");
     // tween camera to neutralPosZ
-    modifyCamera(neutralPosZ, baseOrthoBoxHeight, tl, 0, resetDuration);
-    unblurBackground(tl, 0, resetDuration);
-    resetFocusedOrbs(tl, 0, resetDuration);
+    modifyCamera(neutralPosZ, baseOrthoBoxHeight, tl, startTime, resetDuration);
+    unblurBackground(tl, startTime, resetDuration);
     // tween panes to transparency separately
     infoPanels.style.display = "none";
   } else if (destState == "perspective") {
-    console.assert(currentState == "neutral");
+    console.assert(currentState != "intro");
     console.assert(destPhilId);
-    console.assert(!secondaryPhilId);
+    //console.assert(!secondaryPhilId);
 
     selectedPhilId = destPhilId;
     const selectedPhil = philosopherMap[destPhilId];
@@ -507,12 +526,12 @@ function changeState(destState, destPhilId) {
       selectedPhil.displayPosition,
       selectedPhil.views,
       tl,
-      0,
+      startTime,
       blurDuration,
     );
     // make these orbs glow more
-    modifyCamera(orbPerspectiveAxis.position.z, 25, tl, 0, blurDuration);
-    blurBackground(tl, 0, blurDuration);
+    modifyCamera(orbPerspectiveAxis.position.z, 25, tl, startTime, blurDuration);
+    blurBackground(tl, startTime, blurDuration);
     if (selectedPhil.displayProps) {
       addProps(selectedPhil.displayProps, orbPerspectiveAxis, tl, 1);
     }
@@ -533,17 +552,22 @@ function showSecondary(destPhilId) {
     leftPanel.style.opacity = 0;
     return;
   }
-  const heading = document.querySelector("#left-panel > h1:first-of-type");
-  const subheading = document.querySelector("#left-panel > h2:first-of-type");
+  const heading = document.querySelector("#left-panel > div:first-of-type");
+  const subheading = document.querySelector("#left-panel > h4:first-of-type");
+  const headCN = heading.querySelector(".cn");
+  const headEN = heading.querySelector(".en");
+
   const description = document.querySelector("#left-panel > p:first-of-type");
 
   const view = philosopherMap[selectedPhilId].views[destPhilId];
   const secondaryPhil = philosopherMap[destPhilId];
 
-  heading.textContent = secondaryPhil.name + " - " + secondaryPhil.chineseName;
+  headCN.textContent = secondaryPhil.chineseName;
+  headEN.textContent = secondaryPhil.name;
   subheading.textContent = view.quote;
   description.textContent = view.explanation || "Description pending";
   leftPanel.style.opacity = 1;
+  console.log("hey");
 }
 
 function onPointerDown(event) {
@@ -552,7 +576,11 @@ function onPointerDown(event) {
   if (currentState == "neutral") {
     changeState("perspective", pointedPhilId);
   } else if (currentState == "perspective") {
-    showSecondary(pointedPhilId);
+    if (pointedPhilId == secondaryPhilId) {
+      changeState("perspective", pointedPhilId);
+    } else {
+      showSecondary(pointedPhilId);
+    }
   }
 }
 
@@ -567,8 +595,6 @@ function onBackButtonPress(event) {
 }
 window.addEventListener("pointerdown", onPointerDown);
 backButton.addEventListener("click", onBackButtonPress);
-
-console.assert(!selectedPhilId || currentState == "perspective");
 
 // Hover handling
 const hoverTextDiv = document.getElementById("overlay");

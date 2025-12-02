@@ -50,7 +50,7 @@ export const philosophers = [
     dates: [1000, 600], // no source
     string: 4,
 
-    description: "Important poetry.",
+    description: ["Important poetry."],
 
     relationships: [],
 
@@ -79,8 +79,16 @@ export const philosophers = [
     dates: [1100, 700], // no source
     string: 4,
 
+    description: [
+      "The *History*, or *Shu*, is a record of the events leading to the establishment of the Zhou dynasty. It is one of the \"Five Classics\" of the Confucian tradition, although it predates Confucius by hundreds of years.",
+      "The *History*'s record of the Zhou, as well as the semi-mythological history preceding its record, figure large in all of the Chinese thinkers that follow. According to this history of classical China, the first ruler was thought to be a man named Yao. Yao was named Son of Heaven by the people to rule over the \"world\" (China) because of his extraordinary virtue. When Yao grew old, he appointed Shun, the most virtuous man he could find, and Shun appointed Yu as his successor in a similar way. However, rather than searching for a virtuous man as his successor, Yu appointed his son and founded the Xia dynasty. The Xia dynasty and its successor, the Shang dynasty, both started out with good rulers, but each eventually deteriorated into tyranny.  Thus emerged the concept of the \"Mandate of Heaven,\" a right to rule that a ruler could lose through despotism. When rulers lost the Mandate, they could be virtuously overthrown, as the Shang overthrew the Xia and the Zhou overthrew the Shang.",
+      "This linking of authority with personal virtue (*dé*) would become crucial in classical Chinese thought, and nearly every thinker would appeal to the *History*'s anecdotes to support their conclusions."
+    ],
+
     relationships: [],
 
+    displayPosition: {x:0,y:0,z:0},
+    displayProps: [],
     views: {},
 
     keyTerms: [
@@ -107,7 +115,7 @@ export const philosophers = [
     string: 4, // String to display on in neutral view
 
     description:
-      "No Chinese thinker was greater or more elusive than Kongzi, or Confucius (the Latin name given to him by the Jesuits). Confucius did not set down his thought . Analects. Yet he introduced the terms that everyone else would redefine over and over again in the following centuries. / Confucius was a traveling thinker in the Spring and Autumn period. Unable or unwilling to take any official position, he became a teacher. / Confucius' philosophy lies in the balancing of opposites. Cultural refinement and simplicity, dutifulness and sympathetic understanding; goodness is spontaneous and situation-specific, but rooted in rituals that come from ancient tradition. Confucius passed on many ideas from antiquity that would become part of the present debate, such as virtue (de) being a corrective force that starts within the individual and extends to the entire state. Confucius gives many examples and does not define his key terms clearly, and this is perhaps part of his elusive wisdom. / Confucius refused to let himself be called an innovator or a sage, but within a few centuries, Xunzi was calling him the greatest sage to have ever lived.",
+      ["No Chinese thinker was greater or more elusive than Kongzi, or Confucius (the Latin name given to him by the Jesuits). Confucius did not set down his thought . Analects. Yet he introduced the terms that everyone else would redefine over and over again in the following centuries. / Confucius was a traveling thinker in the Spring and Autumn period. Unable or unwilling to take any official position, he became a teacher. / Confucius' philosophy lies in the balancing of opposites. Cultural refinement and simplicity, dutifulness and sympathetic understanding; goodness is spontaneous and situation-specific, but rooted in rituals that come from ancient tradition. Confucius passed on many ideas from antiquity that would become part of the present debate, such as virtue (de) being a corrective force that starts within the individual and extends to the entire state. Confucius gives many examples and does not define his key terms clearly, and this is perhaps part of his elusive wisdom. / Confucius refused to let himself be called an innovator or a sage, but within a few centuries, Xunzi was calling him the greatest sage to have ever lived."],
     // Perspective-specific target layouts
     // Only Mencius and Xunzi will have full entries initially.
     // (This is a tentative way of handling this since it adds extra coupling)
@@ -414,7 +422,27 @@ export const philosophers = [
       {
         term: "四端",
         pinyin: "sì duān",
-        description: "Four sprouts—beginnings of virtue.",
+        description: "Four sprouts—beginnings of virtue. The *History*'s record of the Zhou, as well as the semi-mythological history preceding its record, figure large in all of the Chinese thinkers that follow. According to this history of classical China, the first ruler was thought to be a man named Yao. Yao was named Son of Heaven by the people to rule over the \"world\" (China) because of his extraordinary virtue. When Yao grew old, he appointed Shun, the most virtuous man he could find, and Shun appointed Yu as his successor in a similar way. However, rather than searching for a virtuous man as his successor, Yu appointed his son and founded the Xia dynasty. The Xia dynasty and its successor, the Shang dynasty, both started out with good rulers, but each eventually deteriorated into tyranny.  Thus emerged the concept of the \"Mandate of Heaven,\" a right to rule that a ruler could lose through despotism. When rulers lost the Mandate, they could be virtuously overthrown, as the Shang overthrew the Xia and the Zhou overthrew the Shang.",
+      },
+      {
+        term: "性善",
+        pinyin: "xìng shàn",
+        description: "Human nature is originally good.",
+      },
+      {
+        term: "四端",
+        pinyin: "sì duān",
+        description: "Four sprouts—beginnings of virtue. The *History*'s record of the Zhou, as well as the semi-mythological history preceding its record, figure large in all of the Chinese thinkers that follow. According to this history of classical China, the first ruler was thought to be a man named Yao. Yao was named Son of Heaven by the people to rule over the \"world\" (China) because of his extraordinary virtue. When Yao grew old, he appointed Shun, the most virtuous man he could find, and Shun appointed Yu as his successor in a similar way. However, rather than searching for a virtuous man as his successor, Yu appointed his son and founded the Xia dynasty. The Xia dynasty and its successor, the Shang dynasty, both started out with good rulers, but each eventually deteriorated into tyranny.  Thus emerged the concept of the \"Mandate of Heaven,\" a right to rule that a ruler could lose through despotism. When rulers lost the Mandate, they could be virtuously overthrown, as the Shang overthrew the Xia and the Zhou overthrew the Shang.",
+      },
+      {
+        term: "性善",
+        pinyin: "xìng shàn",
+        description: "Human nature is originally good.",
+      },
+      {
+        term: "四端",
+        pinyin: "sì duān",
+        description: "Four sprouts—beginnings of virtue. The *History*'s record of the Zhou, as well as the semi-mythological history preceding its record, figure large in all of the Chinese thinkers that follow. According to this history of classical China, the first ruler was thought to be a man named Yao. Yao was named Son of Heaven by the people to rule over the \"world\" (China) because of his extraordinary virtue. When Yao grew old, he appointed Shun, the most virtuous man he could find, and Shun appointed Yu as his successor in a similar way. However, rather than searching for a virtuous man as his successor, Yu appointed his son and founded the Xia dynasty. The Xia dynasty and its successor, the Shang dynasty, both started out with good rulers, but each eventually deteriorated into tyranny.  Thus emerged the concept of the \"Mandate of Heaven,\" a right to rule that a ruler could lose through despotism. When rulers lost the Mandate, they could be virtuously overthrown, as the Shang overthrew the Xia and the Zhou overthrew the Shang.",
       },
     ],
 

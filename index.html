@@ -1,42 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-bs-theme="dark">
     <div id="experience">
-        <canvas id="experience-canvas"></canvas>
-        <div id="overlay"></div>
+      <canvas id="experience-canvas"></canvas>
+      <div id="overlay"></div>
     </div>
     <div id="info-panels">
-        <button id="back-button">Go back...</button>
-        <div class="panel" id="right-panel">
-            <h1>Title</h1>
-            <h2>Subtitle</h2>
-            <p>Description</p>
+      <button id="back-button" class="glass-btn">Go back...</button>
+      <div class="card shadow-sm" id="left-panel">
+        <div>
+            <span class="cn display-2">Chinese</span>
+            <span class="en h4 text-body-secondary">English</span>
         </div>
-        <div class="panel" id="left-panel">
-            <h1>Title</h1>
-            <h2>Subtitle</h2>
-            <p>Description</p>
+        <h4>Subtitle</h4>
+        <p>Description</p>
+      </div>
+      <div class="card shadow-sm" id="right-panel">
+        <div>
+            <span class="cn display-2">Chinese</span>
+            <span class="en h4 text-body-secondary">English</span>
         </div>
-        <div class="panel" id="bottom-panel">
-        </div>
+        <h4>Subtitle</h4>
+      </div>
+      <div class="panel" id="bottom-panel"></div>
     </div>
     <div id="scroll-area"></div>
     <script type="importmap">
-    {
+      {
         "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@v0.181.2/build/three.module.js",
-            "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.181.2/examples/jsm/"
+          "three": "https://cdn.jsdelivr.net/npm/three@v0.181.2/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.181.2/examples/jsm/"
         }
-    }
+      }
     </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
     <script type="module" src="main.js"></script>
-</body>
+  </body>
 </html>

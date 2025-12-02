@@ -1,16 +1,3 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-body {
-    color: white;
-}
-
-.panel {
-    background: rgba(100, 100, 100, 0.5)
-}
-
 #info-panels {
     display: none;
     position: fixed;
@@ -18,12 +5,12 @@ body {
     width: 100%;
     top: 0;
     left: 0;
-    overflow: hidden;
     z-index: 2;
 }
 
 #left-panel {
     position: absolute;
+    overflow: auto;
     height: 50%;
     width: 30%;
     top: 20%;
@@ -32,19 +19,11 @@ body {
 
 #right-panel {
     position: absolute;
-    overflow: scroll;
+    overflow: auto;
     height: 50%;
     width: 30%;
     top: 20%;
     left: 65%;
-}
-
-#bottom-panel {
-    position: absolute;
-    height: 20%;
-    width: 90%;
-    top: 75%;
-    left: 5%;
 }
 
 #bottom-panel {
@@ -61,8 +40,7 @@ body {
 
 #bottom-panel>div {
     position: relative;
-    margin: 10px;
-    padding: 20px;
+    overflow-y: auto;
     height: 100%;
 }
 
@@ -106,11 +84,27 @@ body {
 
 #back-button {
     position: absolute;
-    width: 5vh;
+    width: 100px;
     left: 95vh;
     top: 0;
     user-select: none; 
     color:white;
     text-align: center;
     font-size: large;
+}
+
+.tektur-one {
+  font-family: "Tektur", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.cn {
+  font-family: "Noto Serif TC", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
 }
