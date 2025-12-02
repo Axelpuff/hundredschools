@@ -5,7 +5,7 @@ export const schools = [
     id: "confucian",
     name: "Confucian/Rujia",
     chineseName: "...",
-    color: 0xff0000, // "vermillion",
+    color: "#ff0000", // "vermillion",
   },
   {
     id: "mohist",
@@ -52,8 +52,6 @@ export const philosophers = [
 
     description: ["Important poetry."],
 
-    relationships: [],
-
     views: {},
 
     keyTerms: [
@@ -85,10 +83,6 @@ export const philosophers = [
       "This linking of authority with personal virtue (*dé*) would become crucial in classical Chinese thought, and nearly every thinker would appeal to the *History*'s anecdotes to support their conclusions."
     ],
 
-    relationships: [],
-
-    displayPosition: {x:0,y:0,z:0},
-    displayProps: [],
     views: {},
 
     keyTerms: [
@@ -116,20 +110,38 @@ export const philosophers = [
 
     description:
       ["No Chinese thinker was greater or more elusive than Kongzi, or Confucius (the Latin name given to him by the Jesuits). Confucius did not set down his thought . Analects. Yet he introduced the terms that everyone else would redefine over and over again in the following centuries. / Confucius was a traveling thinker in the Spring and Autumn period. Unable or unwilling to take any official position, he became a teacher. / Confucius' philosophy lies in the balancing of opposites. Cultural refinement and simplicity, dutifulness and sympathetic understanding; goodness is spontaneous and situation-specific, but rooted in rituals that come from ancient tradition. Confucius passed on many ideas from antiquity that would become part of the present debate, such as virtue (de) being a corrective force that starts within the individual and extends to the entire state. Confucius gives many examples and does not define his key terms clearly, and this is perhaps part of his elusive wisdom. / Confucius refused to let himself be called an innovator or a sage, but within a few centuries, Xunzi was calling him the greatest sage to have ever lived."],
-    // Perspective-specific target layouts
-    // Only Mencius and Xunzi will have full entries initially.
-    // (This is a tentative way of handling this since it adds extra coupling)
-    focusLayouts: {
-      // e.g., where this philosopher *moves to* when Mencius is selected
-      mencius: {
-        // targetPosition: [x, y, z],
-        fade: 1.0, // 1 = fully visible, 0 = faded out
-        scale: 1.0, // For emphasis or de-emphasis
+
+    // Directionless edges that are solely for display purposes
+    relationships: [
+      { 
+        from: "odes", // from and to both default to self
+        kind: "buildsOn",
+        emphasis: 0.8, // 0–1; could drive line opacity or thickness
       },
-      xunzi: {
-        // targetPosition: [x, y, z],
-        fade: 0.5,
-        scale: 0.9,
+      {
+        from: "history",
+        kind: "buildsOn",
+        emphasis: 0.8,
+      },
+  ],
+    views: {
+      odes: {
+        quote: "Only with you can I speak of the odes!",
+        explanation:
+          "Confucius views the Odes as one of the main sources of cultural refinement.",
+        display: {
+          brightness: 0.5,
+          position: { x: -4, y: 2, z: 0 }, // intended to be to the left
+        },
+      },
+      history: {
+        quote: "TBA",
+        explanation:
+          "Confucius sees the history as one of the most important documents of learning.",
+        display: {
+          brightness: 0.5,
+          position: { x: -4, y: -2, z: 0 }, // intended to be to the left
+        },
       },
     },
 
@@ -162,25 +174,6 @@ export const philosophers = [
 
     quote: "I transmit but do not innovate. I trust and love the ancients.",
 
-    relationships: [
-      {
-        targetId: "odes",
-        kind: "buildsOn",
-        tone: "positive", // positive | negative | mixed | playful | ambiguous
-        strength: 0.8, // 0–1; could drive line opacity or thickness
-        notes:
-          "Confucius places the odes as one of the main documents of culture.",
-      },
-      {
-        targetId: "history",
-        kind: "buildsOn",
-        tone: "positive", // positive | negative | mixed | playful | ambiguous
-        strength: 0.8, // 0–1; could drive line opacity or thickness
-        notes:
-          "Confucius places the history as one of the main documents of culture.",
-      },
-    ],
-
     imageRefs: [
       "assets/images/confucius_rubbing.jpg",
       "assets/images/bronze_inscription.jpg",
@@ -197,45 +190,48 @@ export const philosophers = [
     string: 3,
 
     relationships: [
-      {
-        targetId: "odes",
+      { 
+        from: "odes", // from and to both default to self
         kind: "buildsOn",
-        tone: "positive",
-        strength: 0.9,
-        notes: "Rejects ritual excess; promotes universal impartial care.",
+        emphasis: 0.8, // 0–1; could drive line opacity or thickness
       },
       {
-        targetId: "history",
+        from: "history",
         kind: "buildsOn",
-        tone: "positive",
-        strength: 0.9,
-        notes: "Rejects ritual excess; promotes universal impartial care.",
+        emphasis: 0.8,
       },
       {
-        targetId: "confucius",
-        kind: "critiques",
-        tone: "negative",
-        strength: 0.9,
-        notes: "Rejects ritual excess; promotes universal impartial care.",
+        to: "confucius",
+        kind: "opposes",
+        emphasis: 1,
       },
-    ],
+  ],
 
     views: {
-      confucius: {
+     confucius: {
         quote: "That fellow Kong Qiu...",
         explanation: "Bro hates Confucius",
-        visualHint: {
-          emphasis: 1.1,
-          connectionStyle: "zigzag",
+        display: {
+          brightness: 0.5,
+          position: { x: 0, y: -6, z: 0 }, // intended to be to the left
         },
       },
-      odes: {
+     odes: {
         quote: "later chapter stuff",
         explanation:
           "Despite his vicious disapproval of Confucius, Mozi places great authority in the classics. Because of this, by the time of the unification and the Han dynasty, they were often lumped together in the same sentence (Huinanzi and other guy)",
-        visualHint: {
-          emphasis: 1.1,
-          connectionStyle: "zigzag",
+        display: {
+          brightness: 0.5,
+          position: { x: -4, y: 2, z: 0 }, // intended to be to the left
+        },
+      },
+      history: {
+        quote: "later chapter stuff",
+        explanation:
+          "Despite his vicious disapproval of Confucius, Mozi places great authority in the classics. Because of this, by the time of the unification and the Han dynasty, they were often lumped together in the same sentence (Huinanzi and other guy)",
+        display: {
+          brightness: 0.5,
+          position: { x: -4, y: -2, z: 0 }, // intended to be to the left
         },
       },
     },
@@ -306,16 +302,43 @@ export const philosophers = [
       "Gaozi is a Mohist figure largely known through the chapter of the Mencius bearing his name. While this means that he is unable to speak for himself apart from the Mencius' framing, the character of Gaozi gives some insight into the psychological development of Mohism in parallel with Confucianism.",
 
     relationships: [
-      { targetId: "mencius", kind: "opposes", tone: "negative", strength: 0.9 },
-    ],
+      {
+        from: "mozi",
+        kind: "buildsOn",
+        emphasis: 0.8,
+      },
+      {
+        to: "mencius",
+        kind: "opposes",
+        emphasis: 1,
+      },
+  ],
 
-    views: {},
+    views: {
+     mozi: {
+        quote: "...",
+        explanation: "Gaozi is portrayed as a characteristic Mohist.",
+        display: {
+          brightness: 0.5,
+          position: { x: -5, y: 0, z: 0 }, // intended to be to the left
+        },
+      },
+     mencius: {
+        quote: "question about pulling your sister out of the water",
+        explanation:
+          "Gaozi and Mencius are portrayed as opposing thinkers.",
+        display: {
+          brightness: 0.5,
+          position: { x: 0, y: -5, z: 0 }, // intended to be to the left
+        },
+      },
+    },
 
     keyTerms: [
       {
         term: "性",
         pinyin: "xìng",
-        description: "Human nature centered on preserving one's life.",
+        description: "Cups and bowls",
       },
     ],
 
@@ -334,39 +357,6 @@ export const philosophers = [
     dates: [371, 289],
     string: 4,
 
-    displayPosition: { x: 0, y: 6, z: 0 }, // intended to be directly above
-    displayProps: [
-      {
-        type: "arrow",
-        properties: {
-          dir: {x: -1, y: 0, z: 0},
-          length: 9,
-          color: "white",
-          headLength: 1,
-          headWidth: 0.2,
-        },
-      },
-      {
-        type: "arrow",
-        properties: {
-          dir: {x: 1, y: 0, z: 0},
-          length: 9,
-          color: "white",
-          headLength: 1,
-          headWidth: 0.2,
-        },
-      },
-      {
-        type: "arrow",
-        properties: {
-          dir: {x: 0, y: 1, z: 0},
-          length: 9,
-          color: "white",
-          headLength: 1,
-          headWidth: 0.2,
-        },
-      },
-    ],
     relationships: [],
     views: {
       yangzhu: {
@@ -412,6 +402,40 @@ export const philosophers = [
         },
       },
     },
+
+    displayPosition: { x: 0, y: 6, z: 0 }, // intended to be directly above
+    displayProps: [
+      {
+        type: "arrow",
+        properties: {
+          dir: {x: -1, y: 0, z: 0},
+          length: 9,
+          color: "white",
+          headLength: 1,
+          headWidth: 0.2,
+        },
+      },
+      {
+        type: "arrow",
+        properties: {
+          dir: {x: 1, y: 0, z: 0},
+          length: 9,
+          color: "white",
+          headLength: 1,
+          headWidth: 0.2,
+        },
+      },
+      {
+        type: "arrow",
+        properties: {
+          dir: {x: 0, y: 1, z: 0},
+          length: 9,
+          color: "white",
+          headLength: 1,
+          headWidth: 0.2,
+        },
+      },
+    ],
 
     keyTerms: [
       {

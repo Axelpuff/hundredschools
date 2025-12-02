@@ -55,7 +55,7 @@ Goal: Views
 To achieve this, we have the following fields in each philosopher:
 - displayPosition [x,y,z]: how to position this relative to the invisible axis
 - views [{targetId: id, quote: string, explanation: string, display: {brightness: float, position: [x,y,z]}}]
-- relationships [{from: id, to: id, emphasis: float, style: string}]: edges to draw in the diagram
+- relationships [{from: id, to: id, emphasis: float, kind: string}]: edges to draw in the diagram
 - some sort of field for passive rotation of the axis
 - some sort of field for a function that allows for custom movement of the base orb (Zhuangzi's orb fluttering around)
 

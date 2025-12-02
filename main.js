@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { schools, philosophers } from "./philosophers.js";
 import { gsap } from "https://cdn.jsdelivr.net/npm/gsap@3.13/+esm";
+import { LineMaterial } from "three/addons/lines/LineMaterial.js";
 
 const schoolMap = Object.fromEntries(schools.map((p) => [p.id, p]));
 const philosopherMap = Object.fromEntries(philosophers.map((p) => [p.id, p]));
@@ -70,12 +71,12 @@ camera.rotation.x = -Math.PI / 2; // looking down
 camera.rotation.z = Math.PI / 2; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
 
 function setHorizontal() {
-camera.rotation.z = Math.PI / 2; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
-orbPerspectiveAxis.rotation.z = Math.PI / 2;
+  camera.rotation.z = Math.PI / 2; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
+  orbPerspectiveAxis.rotation.z = Math.PI / 2;
 }
 function setVertical() {
-camera.rotation.z = Math.PI; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
-orbPerspectiveAxis.rotation.z = Math.PI;
+  camera.rotation.z = Math.PI; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
+  orbPerspectiveAxis.rotation.z = Math.PI;
 }
 
 /* const controls = new OrbitControls(camera, canvas);
@@ -142,31 +143,29 @@ function get_orb_position(timePosition, string) {
 }
 
 // From Three.js canvas textures tutorial
-	function makeLabelCanvas( size, name ) {
+function makeLabelCanvas(size, name) {
+  const borderSize = 2;
+  const ctx = document.createElement("canvas").getContext("2d");
+  const font = `${size}px Noto Serif TC`;
+  ctx.font = font;
+  // measure how long the name will be
+  const doubleBorderSize = borderSize * 2;
+  const width = ctx.measureText(name).width + doubleBorderSize;
+  const height = size + doubleBorderSize;
+  ctx.canvas.width = width;
+  ctx.canvas.height = height;
 
-		const borderSize = 2;
-		const ctx = document.createElement( 'canvas' ).getContext( '2d' );
-		const font = `${size}px Noto Serif TC`;
-		ctx.font = font;
-		// measure how long the name will be
-		const doubleBorderSize = borderSize * 2;
-		const width = ctx.measureText( name ).width + doubleBorderSize;
-		const height = size + doubleBorderSize;
-		ctx.canvas.width = width;
-		ctx.canvas.height = height;
+  // need to set font again after resizing canvas
+  ctx.font = font;
+  ctx.textBaseline = "top";
 
-		// need to set font again after resizing canvas
-		ctx.font = font;
-		ctx.textBaseline = 'top';
-
-		/* ctx.fillStyle = 'blue';
+  /* ctx.fillStyle = 'blue';
 		ctx.fillRect( 0, 0, width, height ); */
-		ctx.fillStyle = 'white';
-		ctx.fillText( name, borderSize, borderSize );
+  ctx.fillStyle = "white";
+  ctx.fillText(name, borderSize, borderSize);
 
-		return ctx.canvas;
-
-	}
+  return ctx.canvas;
+}
 
 const sphereGeomMajor = new THREE.SphereGeometry(1, 32, 16);
 const sphereGeomMinor = new THREE.SphereGeometry(0.85, 32, 16);
@@ -184,7 +183,7 @@ for (const philosopher of philosophers) {
   orb.name = philosopher.id;
   orb.position.copy(get_orb_position(timePosition, philosopher.string));
 
-  const canvas = makeLabelCanvas(40, philosopher.chineseName[0]) // default to first character
+  const canvas = makeLabelCanvas(40, philosopher.chineseName[0]); // default to first character
   const texture = new THREE.CanvasTexture(canvas);
   // because our canvas is likely not a power of 2
   // in both dimensions set the filtering appropriately. (from tutorial)
@@ -338,11 +337,7 @@ blurPlane.rotation.x = -Math.PI / 2;
 scene.add(blurPlane);
 
 function unblurBackground(tl, startTime, duration) {
-  tl.to(
-    blurPlane.material,
-    { duration: blurDuration, opacity: 0 },
-    startTime
-  );
+  tl.to(blurPlane.material, { duration: blurDuration, opacity: 0 }, startTime);
   tl.to(directional, { duration: duration, intensity: 0.5 }, startTime);
 }
 
@@ -356,7 +351,8 @@ function blurBackground(tl, startTime, duration) {
 }
 
 // Perspective mode prop management
-function addProps(props, axis, timeline, startTime) {
+const props = [];
+function makeProps(props, axis, timeline, startTime) {
   for (let i = 0; i < props.length; i++) {
     const prop = props[i];
     const properties = prop.properties;
@@ -369,6 +365,7 @@ function addProps(props, axis, timeline, startTime) {
         properties.headLength,
         properties.headWidth
       );
+      props.push(arrow);
       axis.add(arrow);
       // it's ok if the user goes back during this animation, the arrow will get cleared
       // (unless GSAP has a memory leak?)
@@ -393,7 +390,84 @@ function addProps(props, axis, timeline, startTime) {
 }
 
 function clearProps(axis) {
+  for (const prop of props) {
+    if (prop.dispose) {
+      prop.dispose();
+    }
+  }
+  props.splice(0);
   axis.clear(); // dispose?
+}
+
+function makeRelationshipLines(
+  selectedPhilId,
+  views,
+  relationships,
+  basePosition,
+  orbMap,
+  axis,
+  timeline,
+  startTime
+) {
+  for (let i = 0; i < relationships.length; i++) {
+    const relationship = relationships[i];
+    console.assert(relationship.from || relationship.to);
+    basePosition = basePosition || new THREE.Vector3(0, 0, 0);
+    const from = relationship.from || selectedPhilId;
+    const to = relationship.to || selectedPhilId;
+    let color;
+    switch (relationship.kind) {
+      case "opposes":
+        color = 0xff0000;
+        break;
+      case "buildsOn":
+        color = 0x00ff00;
+        break;
+      default:
+        color = "white";
+    }
+    const relMat = new THREE.MeshBasicMaterial({
+      color: color,
+      transparent: true,
+      //worldUnits: true,
+      //linewidth: 1,
+      opacity: 0,
+    });
+    const fromPos = new THREE.Vector3().copy(
+      from == selectedPhilId ? basePosition : views[from].display.position
+    );
+    const toPos = new THREE.Vector3().copy(
+      to == selectedPhilId ? basePosition : views[to].display.position
+    );
+    //const relGeom = new THREE.BufferGeometry().setFromPoints([fromPos, toPos]);
+    const tubeGeometry = new THREE.TubeGeometry(
+      new THREE.CatmullRomCurve3([fromPos, toPos]),
+      6, // path segments
+      relationship.emphasis / 5, // THICKNESS
+      3, //Roundness of Tube
+      false //closed
+    );
+    const relLine = new THREE.Line(tubeGeometry, relMat);
+    console.log(relLine);
+    props.push(relLine);
+    axis.add(relLine);
+    //const lineState = { length: 0 };
+    relLine.visible = false;
+    timeline.to(
+      relMat,
+      {
+        duration: 0.25,
+        opacity: relationship.emphasis,
+        onStart: () => {
+          relLine.visible = true;
+        },
+        /*  onUpdate: () => {
+          arrow.setLength(arrowState.length);
+        }, */
+      },
+      startTime + i * 0.25
+    );
+  }
 }
 
 // UI panes
@@ -409,13 +483,14 @@ function fillPanes(selectedPhil) {
   const headCN = heading.querySelector(".cn");
   const headEN = heading.querySelector(".en");
   if (selectedPhil.description) {
-  for (const paragraphText of selectedPhil.description) {
-    const paragraph = document.createElement("p");
-    paragraph.textContent = paragraphText;
-    rightPanel.appendChild(paragraph);
+    for (const paragraphText of selectedPhil.description) {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = paragraphText;
+      rightPanel.appendChild(paragraph);
+    }
   }
-}
   headCN.textContent = selectedPhil.chineseName;
+  headCN.style.textShadow = schoolMap[selectedPhil.school].color + " -5px 5px";
   headEN.textContent = selectedPhil.name;
   subheading.textContent = schoolMap[selectedPhil.school].name;
   //description.textContent = selectedPhil.description || "Description pending";
@@ -430,7 +505,7 @@ function fillPanes(selectedPhil) {
     const termDesc = document.createElement("p");
     cn.className = "cn";
     en.className = "en";
-    subpanel.className = "card glass-panel p-2 mb-2 w-25"
+    subpanel.className = "card glass-panel p-2 mb-2 w-25";
     cn.textContent = term.term;
     en.textContent = " (" + term.pinyin + ")";
     termDesc.textContent = term.description;
@@ -555,7 +630,7 @@ function changeState(destState, destPhilId) {
     selectedPhilId = null;
     secondaryPhilId = null;
     resetFocusedOrbs(tl, startTime, resetDuration);
-    startTime += resetDuration * 2;
+    //startTime += resetDuration * 2;
     clearProps(orbPerspectiveAxis);
   }
 
@@ -576,17 +651,35 @@ function changeState(destState, destPhilId) {
     focusRelevantOrbs(selectedPhilId, selectedPhil.views);
     repositionFocusedOrbs(
       selectedPhilId,
-      selectedPhil.displayPosition,
+      selectedPhil.displayPosition || new THREE.Vector3(0, 0, 0),
       selectedPhil.views,
       tl,
       startTime,
-      blurDuration,
+      blurDuration
     );
     // make these orbs glow more
-    modifyCamera(orbPerspectiveAxis.position.z, 25, tl, startTime, blurDuration);
+    modifyCamera(
+      orbPerspectiveAxis.position.z,
+      25,
+      tl,
+      startTime,
+      blurDuration
+    );
     blurBackground(tl, startTime, blurDuration);
     if (selectedPhil.displayProps) {
-      addProps(selectedPhil.displayProps, orbPerspectiveAxis, tl, 1);
+      makeProps(selectedPhil.displayProps, orbPerspectiveAxis, tl, 1);
+    }
+    if (selectedPhil.relationships) {
+      makeRelationshipLines(
+        selectedPhilId,
+        selectedPhil.views,
+        selectedPhil.relationships,
+        selectedPhil.basePosition,
+        orbMap,
+        orbPerspectiveAxis,
+        tl,
+        1
+      );
     }
     fillPanes(selectedPhil);
     infoPanels.style.display = "block";
@@ -616,6 +709,7 @@ function showSecondary(destPhilId) {
   const secondaryPhil = philosopherMap[destPhilId];
 
   headCN.textContent = secondaryPhil.chineseName;
+  headCN.style.textShadow = schoolMap[secondaryPhil.school].color + " -2px 2px";
   headEN.textContent = secondaryPhil.name;
   subheading.textContent = view.quote;
   description.textContent = view.explanation || "Description pending";
@@ -630,7 +724,8 @@ function onPointerDown(event) {
     changeState("perspective", pointedPhilId);
   } else if (currentState == "perspective") {
     if (pointedPhilId == secondaryPhilId) {
-      changeState("perspective", pointedPhilId);
+      // TBA
+      // changeState("perspective", pointedPhilId);
     } else {
       showSecondary(pointedPhilId);
     }
@@ -688,7 +783,9 @@ function renderHoveredPhil() {
   tempPos.project(camera);
   // convert to CSS coords
   const x = (tempPos.x * 0.5 + 0.5) * canvas.clientWidth;
-  const y = (tempPos.y * -0.5 + 0.5) * canvas.clientHeight;
+  const y =
+    (tempPos.y * -0.5 + 0.5 + 0.5 / renderInfo.orthoBoxHeight) *
+    canvas.clientHeight;
   // I don't understand this at all
   label.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;
 }
