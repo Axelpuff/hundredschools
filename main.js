@@ -141,6 +141,33 @@ function get_orb_position(timePosition, string) {
   return intersections[0].point; // there should be exactly one intersection
 }
 
+// From Three.js canvas textures tutorial
+	function makeLabelCanvas( size, name ) {
+
+		const borderSize = 2;
+		const ctx = document.createElement( 'canvas' ).getContext( '2d' );
+		const font = `${size}px Noto Serif TC`;
+		ctx.font = font;
+		// measure how long the name will be
+		const doubleBorderSize = borderSize * 2;
+		const width = ctx.measureText( name ).width + doubleBorderSize;
+		const height = size + doubleBorderSize;
+		ctx.canvas.width = width;
+		ctx.canvas.height = height;
+
+		// need to set font again after resizing canvas
+		ctx.font = font;
+		ctx.textBaseline = 'top';
+
+		/* ctx.fillStyle = 'blue';
+		ctx.fillRect( 0, 0, width, height ); */
+		ctx.fillStyle = 'white';
+		ctx.fillText( name, borderSize, borderSize );
+
+		return ctx.canvas;
+
+	}
+
 const sphereGeomMajor = new THREE.SphereGeometry(1, 32, 16);
 const sphereGeomMinor = new THREE.SphereGeometry(0.85, 32, 16);
 const orbs = [];
@@ -156,6 +183,23 @@ for (const philosopher of philosophers) {
   );
   orb.name = philosopher.id;
   orb.position.copy(get_orb_position(timePosition, philosopher.string));
+
+  const canvas = makeLabelCanvas(40, philosopher.chineseName[0]) // default to first character
+  const texture = new THREE.CanvasTexture(canvas);
+  // because our canvas is likely not a power of 2
+  // in both dimensions set the filtering appropriately. (from tutorial)
+  texture.minFilter = THREE.LinearFilter;
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
+  const labelMat = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    depthTest: false,
+  });
+  const label = new THREE.Sprite(labelMat);
+  label.position.y = 0;
+  orb.add(label);
+
   orbs.push(orb);
   orbMap[philosopher.id] = orb;
   scene.add(orb);
