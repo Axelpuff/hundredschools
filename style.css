@@ -108,7 +108,7 @@
 #back-button {
     position: absolute;
     width: 100px;
-    left: 95vh;
+    left: 80%;
     top: 0;
     user-select: none; 
     color:white;

@@ -69,6 +69,15 @@ camera.position.z = 45; // to the left end of the guqin
 camera.rotation.x = -Math.PI / 2; // looking down
 camera.rotation.z = Math.PI / 2; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
 
+function setHorizontal() {
+camera.rotation.z = Math.PI / 2; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
+orbPerspectiveAxis.rotation.z = Math.PI / 2;
+}
+function setVertical() {
+camera.rotation.z = Math.PI; // guqin oriented horizontally. On mobile should remain 0 (this would go in resizedisplay
+orbPerspectiveAxis.rotation.z = Math.PI;
+}
+
 /* const controls = new OrbitControls(camera, canvas);
 controls.target.z = 60;
 controls.update(); */
@@ -667,6 +676,11 @@ function handleResize() {
   sizes.width = window.innerWidth;
   sizes.height = window.innerHeight;
   aspect = sizes.width / sizes.height;
+  if (aspect < 1) {
+    setVertical();
+  } else {
+    setHorizontal();
+  }
   updateCamera();
 
   renderer.setSize(sizes.width, sizes.height);
