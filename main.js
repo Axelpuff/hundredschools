@@ -7,6 +7,8 @@ import { gsap } from "https://cdn.jsdelivr.net/npm/gsap@3.13/+esm";
 const schoolMap = Object.fromEntries(schools.map((p) => [p.id, p]));
 const philosopherMap = Object.fromEntries(philosophers.map((p) => [p.id, p]));
 
+const resetDuration = 0.5;
+
 /*
 |  SCENE SETUP
 */
@@ -42,6 +44,25 @@ function updateCamera() {
   camera.top = renderInfo.orthoBoxHeight;
   camera.bottom = -renderInfo.orthoBoxHeight;
   camera.updateProjectionMatrix();
+}
+function modifyCamera(zPosition, orthoBoxHeight, tl, startTime, duration) {
+  tl.to(
+    camera.position,
+    {
+      duration: duration,
+      z: zPosition,
+    },
+    startTime
+  );
+  tl.to(
+    renderInfo,
+    {
+      duration: duration,
+      orthoBoxHeight: orthoBoxHeight,
+      onUpdate: updateCamera,
+    },
+    startTime
+  );
 }
 camera.position.y = 20; // above
 camera.position.z = 45; // to the left end of the guqin
@@ -150,30 +171,42 @@ function focusRelevantOrbs(philosopherId, views) {
   orbPerspectiveAxis.position.y = orbPerspectiveY;
 }
 
-function repositionFocusedOrbs(selectedPhilId, displayPosition, views, tl) {
-  for (const orb of focusedOrbs) {
+function repositionFocusedOrbs(
+  selectedPhilId,
+  displayPosition,
+  views,
+  tl,
+  startTime,
+  duration
+) {
+  for (let i = 0; i < focusedOrbs.length; i++) {
+    const orb = focusedOrbs[i];
     const philosopherId = orb.name;
-    console.log(philosopherId);
     let targetRelativePos = new THREE.Vector3().copy(
       philosopherId == selectedPhilId
         ? displayPosition
         : views[philosopherId].display.position
     );
     let targetWorldPos = orbPerspectiveAxis.localToWorld(targetRelativePos);
-    tl.to(orb.position, {
-      duration: 1,
-      ease: "circ.inout",
-      x: targetWorldPos.x,
-      y: targetWorldPos.y,
-      onComplete: () => {
-        if (orb.parent == null) {
-          orbPerspectiveAxis.attach(orb);
-        }
-      },
-    }, "-=0.8").to(
+    tl.to(
       orb.position,
       {
-        duration: 1,
+        duration: duration,
+        ease: "elastic.inout(1.75,1)",
+        x: targetWorldPos.x,
+        y: targetWorldPos.y, // not visually noticeable - remove?
+        onComplete: () => {
+          if (orb.parent == null) {
+            orbPerspectiveAxis.attach(orb);
+          }
+        },
+      },
+      i == 0 ? startTime : "-=0.9" // should be 0.1 delay between orbs
+    );
+    tl.to(
+      orb.position,
+      {
+        duration: duration,
         ease: "elastic.inout(1.75,1)",
         z: targetWorldPos.z,
         onComplete: () => {
@@ -182,19 +215,39 @@ function repositionFocusedOrbs(selectedPhilId, displayPosition, views, tl) {
           }
         },
       },
-      "-=1"
+      "-=1" // same time as x and y change
     );
   }
 }
 
 // reparents focused orbs to scene with original positions and refocuses all orbs
-function resetFocusedOrbs() {
-  for (const orb of focusedOrbs) {
+function resetFocusedOrbs(tl, startTime, duration) {
+  for (let i = 0; i < focusedOrbs.length; i++) {
+    const orb = focusedOrbs[i];
     const philosopher = philosopherMap[orb.name];
     const timePosition = (philosopher.dates[0] + philosopher.dates[1]) / 2;
+    const targetWorldPos = get_orb_position(timePosition, philosopher.string);
 
-    scene.add(orb);
-    orb.position.copy(get_orb_position(timePosition, philosopher.string));
+    scene.attach(orb);
+    tl.to(
+      orb.position,
+      {
+        duration: duration,
+        ease: "back.inOut",
+        x: targetWorldPos.x,
+        y: targetWorldPos.y, // not visually noticeable - remove?
+      },
+      startTime + i * 0.1
+    );
+    tl.to(
+      orb.position,
+      {
+        duration: duration,
+        ease: "power3.inout",
+        z: targetWorldPos.z,
+      },
+      startTime + i * 0.1
+    );
   }
   // reset focus to all orbs
   focusedOrbs = orbs.slice();
@@ -218,6 +271,7 @@ guqin.scene.traverse((obj) => {
 scene.add(guqin.scene);
 
 // Blur plane
+const blurDuration = 1;
 const planeGeom = new THREE.PlaneGeometry(200, 200, 1, 1);
 const planeMat = new THREE.MeshPhysicalMaterial({
   transmission: 1,
@@ -230,14 +284,26 @@ blurPlane.position.y = 12.5;
 blurPlane.rotation.x = -Math.PI / 2;
 scene.add(blurPlane);
 
-function unblurBackground() {
-  blurPlane.material.opacity = 0;
-  directional.intensity = 0.5;
+function unblurBackground(tl, startTime, duration) {
+  tl.to(
+    blurPlane.material,
+    { duration: blurDuration, opacity: 0 },
+    startTime
+  );
+  tl.to(directional, { duration: duration, intensity: 0.5 }, startTime);
+}
+
+function blurBackground(tl, startTime, duration) {
+  tl.to(
+    blurPlane.material,
+    { duration: blurDuration, opacity: 0.8 },
+    startTime
+  );
+  tl.to(directional, { duration: duration, intensity: 0 }, startTime);
 }
 
 // Perspective mode prop management
-// let activeProps = [];
-function addProps(props, axis, timeline) {
+function addProps(props, axis, timeline, startTime) {
   for (let i = 0; i < props.length; i++) {
     const prop = props[i];
     const properties = prop.properties;
@@ -255,18 +321,57 @@ function addProps(props, axis, timeline) {
       // (unless GSAP has a memory leak?)
       const arrowState = { length: 0 };
       arrow.visible = false;
-      timeline.to(arrowState, {
-        duration: 0.25,
-        length: properties.length,
-        onStart: () => {
-          arrow.visible = true;
+      timeline.to(
+        arrowState,
+        {
+          duration: 0.25,
+          length: properties.length,
+          onStart: () => {
+            arrow.visible = true;
+          },
+          onUpdate: () => {
+            arrow.setLength(arrowState.length);
+          },
         },
-        onUpdate: () => {
-          arrow.setLength(arrowState.length);
-        },
-      });
+        startTime + i * 0.25
+      );
     }
   }
+}
+
+// UI panes
+const backButton = document.getElementById("back-button");
+const infoPanels = document.getElementById("info-panels");
+const leftPanel = document.getElementById("left-panel");
+const rightPanel = document.getElementById("right-panel");
+const bottomPanel = document.getElementById("bottom-panel");
+function fillPanes(selectedPhil) {
+  // fill panes with information
+  const heading = document.querySelector("#right-panel > h1:first-of-type");
+  const subheading = document.querySelector("#right-panel > h2:first-of-type");
+  const description = document.querySelector("#right-panel > p:first-of-type");
+  heading.textContent = selectedPhil.name + " - " + selectedPhil.chineseName;
+  subheading.textContent = schoolMap[selectedPhil.school].name;
+  description.textContent = selectedPhil.description || "Description pending";
+
+  bottomPanel.replaceChildren();
+  //const subpanels = [];
+  for (const term of selectedPhil.keyTerms) {
+    const subpanel = document.createElement("div");
+    const termHead = document.createElement("h1");
+    const termDesc = document.createElement("p");
+    termHead.textContent = term.term + " (" + term.pinyin + ")";
+    termDesc.textContent = term.description;
+    subpanel.appendChild(termHead);
+    subpanel.appendChild(termDesc);
+    bottomPanel.appendChild(subpanel);
+    //subpanels.push(subpanel);
+  }
+  //bottomPanel.appendChild(subpanels);
+
+  // show panes on right side and bottom
+  // tween pane opacity
+  leftPanel.style.opacity = 0;
 }
 
 /*
@@ -322,7 +427,7 @@ const scrollArea = document.getElementById("scroll-area");
 const scroll_start_z = 50; // positive z is towards the narrow end
 const scroll_end_z = -50;
 function handleScroll(event) {
-  if (currentState != "neutral") return; // try to save computation
+  if (!scrollable) return; // try to save computation
 
   const maxScroll = scrollArea.clientHeight - window.innerHeight;
   const scrollPercent = window.scrollY / maxScroll;
@@ -343,6 +448,8 @@ function restoreScroll() {
 }
 function saveScroll() {
   scrollable = false;
+  neutralPosZ = camera.position.z;
+  neutralScroll = window.scrollY;
 }
 window.addEventListener("scroll", handleScroll);
 
@@ -352,20 +459,24 @@ let transitioning = false;
 let selectedPhilId = null;
 let secondaryPhilId = null; // selected philosopher when in perspective already, null if not in perspective
 
-const backButton = document.getElementById("back-button");
-const infoPanels = document.getElementById("info-panels");
-const leftPanel = document.getElementById("left-panel");
-const rightPanel = document.getElementById("right-panel");
-const bottomPanel = document.getElementById("bottom-panel");
-
 function clearProps(axis) {
   axis.clear(); // dispose?
 }
 
 // this will get called outside the animate thread and so can wait and do other stuff
 function changeState(destState, destPhilId) {
+  console.log(transitioning);
   if (transitioning) return; // should the caller be responsible for this?
   transitioning = true;
+  let tl = gsap.timeline({
+    onComplete: () => {
+      if (destState == "neutral") {
+        restoreScroll();
+      }
+      transitioning = false;
+      currentState = destState;
+    },
+  });
 
   if (currentState == "neutral") {
     saveScroll();
@@ -378,11 +489,9 @@ function changeState(destState, destPhilId) {
   if (destState == "neutral") {
     console.assert(currentState != "neutral");
     // tween camera to neutralPosZ
-    renderInfo.orthoBoxHeight = baseOrthoBoxHeight;
-    updateCamera();
-    restoreScroll();
-    unblurBackground();
-    resetFocusedOrbs();
+    modifyCamera(neutralPosZ, baseOrthoBoxHeight, tl, 0, resetDuration);
+    unblurBackground(tl, 0, resetDuration);
+    resetFocusedOrbs(tl, 0, resetDuration);
     // tween panes to transparency separately
     infoPanels.style.display = "none";
   } else if (destState == "perspective") {
@@ -392,79 +501,32 @@ function changeState(destState, destPhilId) {
 
     selectedPhilId = destPhilId;
     const selectedPhil = philosopherMap[destPhilId];
-
-    // get relevant orbs
     focusRelevantOrbs(selectedPhilId, selectedPhil.views);
-
-    let tl = gsap.timeline();
-    // tween other orbs around this orb
-    repositionFocusedOrbs(selectedPhilId, selectedPhil.displayPosition, selectedPhil.views, tl);
+    repositionFocusedOrbs(
+      selectedPhilId,
+      selectedPhil.displayPosition,
+      selectedPhil.views,
+      tl,
+      0,
+      blurDuration,
+    );
     // make these orbs glow more
-
-    // tween camera z to orb position
-    
-    const bruhduration = 1;
-    tl.to(camera.position, {
-      duration: bruhduration,
-      z: orbPerspectiveAxis.position.z,
-    }).to(
-      renderInfo,
-      { duration: bruhduration, orthoBoxHeight: 25, onUpdate: updateCamera },
-      0
-    ); // might be really slow
-    // blur everything that isn't focusedOrbs
-    tl.to(blurPlane.material, { duration: bruhduration, opacity: 0.8 }, 0).to(
-      directional,
-      { duration: bruhduration, intensity: 0 },
-      0
-    );
-
-    // add props
+    modifyCamera(orbPerspectiveAxis.position.z, 25, tl, 0, blurDuration);
+    blurBackground(tl, 0, blurDuration);
     if (selectedPhil.displayProps) {
-      addProps(selectedPhil.displayProps, orbPerspectiveAxis, tl);
+      addProps(selectedPhil.displayProps, orbPerspectiveAxis, tl, 1);
     }
-
-    // fill panes with information
-    const heading = document.querySelector("#right-panel > h1:first-of-type");
-    const subheading = document.querySelector(
-      "#right-panel > h2:first-of-type"
-    );
-    const description = document.querySelector(
-      "#right-panel > p:first-of-type"
-    );
-    heading.textContent = selectedPhil.name + " - " + selectedPhil.chineseName;
-    subheading.textContent = schoolMap[selectedPhil.school].name;
-    description.textContent = selectedPhil.description || "Description pending";
-
-    bottomPanel.replaceChildren();
-    //const subpanels = [];
-    for (const term of selectedPhil.keyTerms) {
-      const subpanel = document.createElement("div");
-      const termHead = document.createElement("h1");
-      const termDesc = document.createElement("p");
-      termHead.textContent = term.term + " (" + term.pinyin + ")";
-      termDesc.textContent = term.description;
-      subpanel.appendChild(termHead);
-      subpanel.appendChild(termDesc);
-      bottomPanel.appendChild(subpanel);
-      //subpanels.push(subpanel);
-    }
-    //bottomPanel.appendChild(subpanels);
-
-    // show panes on right side and bottom
-    // tween pane opacity
-    leftPanel.style.opacity = 0;
+    fillPanes(selectedPhil);
     infoPanels.style.display = "block";
   } else if (destState == "intro") {
     console.assert(currentState == "neutral");
   } else {
     throw "Error: invalid destination state " + destState;
   }
-  currentState = destState;
-  transitioning = false;
 }
 
 function showSecondary(destPhilId) {
+  if (transitioning) return; // should the caller be responsible for this?
   if (destPhilId == selectedPhilId) destPhilId = null;
   secondaryPhilId = destPhilId;
   if (!destPhilId) {
