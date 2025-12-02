@@ -377,7 +377,7 @@ function fillPanes(selectedPhil) {
     const termDesc = document.createElement("p");
     cn.className = "cn";
     en.className = "en";
-    subpanel.className = "card p-2 mb-2 w-25"
+    subpanel.className = "card glass-panel p-2 mb-2 w-25"
     cn.textContent = term.term;
     en.textContent = " (" + term.pinyin + ")";
     termDesc.textContent = term.description;
