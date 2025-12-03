@@ -1,0 +1,11 @@
+Model Information:
+* title:	Chinese Zither
+* source:	https://sketchfab.com/3d-models/chinese-zither-52e6e8b6c56641be9f379f99aa5c3882
+* author:	Inditrion Dradnon (https://sketchfab.com/dradnon)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Chinese Zither" (https://sketchfab.com/3d-models/chinese-zither-52e6e8b6c56641be9f379f99aa5c3882) by Inditrion Dradnon (https://sketchfab.com/dradnon) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
