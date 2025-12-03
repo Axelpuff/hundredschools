@@ -697,16 +697,16 @@ function showSecondary(destPhilId) {
   if (transitioning) return; // should the caller be responsible for this?
   //if (destPhilId == selectedPhilId) destPhilId = null;
   secondaryPhilId = destPhilId;
-  /* if (!destPhilId) {
-    leftPanel.style.opacity = 0;
+  if (!destPhilId) {
+    //leftPanel.style.opacity = 0;
     return;
-  } */
+  }
   const heading = document.querySelector("#right-panel > div:first-of-type");
   const subheading = document.querySelector("#right-panel > h4:first-of-type");
   const headCN = heading.querySelector(".cn");
   const headEN = heading.querySelector(".en");
 
-  const description = document.querySelector("#left-panel > p:first-of-type");
+  const description = document.querySelector("#right-panel > p:first-of-type");
 
   const view = philosopherMap[selectedPhilId].views[destPhilId];
   const secondaryPhil = philosopherMap[destPhilId];
@@ -716,7 +716,7 @@ function showSecondary(destPhilId) {
   headEN.textContent = secondaryPhil.name;
   subheading.textContent = view.quote;
   description.textContent = view.explanation || "Description pending";
-  leftPanel.style.opacity = 1;
+  // leftPanel.style.opacity = 1;
   console.log("hey");
 }
 

@@ -50,7 +50,7 @@ export const philosophers = [
     dates: [1000, 600], // no source
     string: 4,
 
-    description: ["Important poetry."],
+    description: ["The Odes is a collection of poetry and one of the \"Five Classics\" of the Confucian traidition, although it predates Confucius. The Odes include folk songs as well as poems about the Zhou dynasty. Appealing to the Odes through interpretation of its poems would become a critical tactic for Confucius, Mozi, Mencius, and later thinkers in their traditions."],
 
     views: {},
 
@@ -189,6 +189,10 @@ export const philosophers = [
     dates: [480, 390],
     string: 3,
 
+    description: [
+      "Mozi was a thinker of modest background who advocated for a hierarchical authoritarian society, founded on a belief in a just cosmos that rewards the good and punishes the bad. Mozi's consequentialist ethics have little regard for anything beyond the wealth, population, and order of the state. His followers were referred to as Mohists.",
+    ],
+
     relationships: [
       { 
         from: "odes", // from and to both default to self
@@ -210,25 +214,25 @@ export const philosophers = [
     views: {
      confucius: {
         quote: "That fellow Kong Qiu...",
-        explanation: "Bro hates Confucius",
+        explanation: "Mozi critiques Confucius harshly to the point of disrespect. He interprets Confucius' love of music as a love of excess and Confucius' praise of filial piety over state loyalty as a violation of impartial caring.",
         display: {
           brightness: 0.5,
           position: { x: 0, y: -6, z: 0 }, // intended to be to the left
         },
       },
      odes: {
-        quote: "later chapter stuff",
+        quote: "", // chapter about king's burial
         explanation:
-          "Despite his vicious disapproval of Confucius, Mozi places great authority in the classics. Because of this, by the time of the unification and the Han dynasty, they were often lumped together in the same sentence (Huinanzi and other guy)",
+          "Despite his vicious disapproval of Confucius, Mozi places great authority in the same classical documents, such as the Odes. Mozi appeals to the Odes at one point to argue that ghosts and spirits are real. Because of their common heritage, by the time of the unification and the Han dynasty, Confucius and Mozi were often lumped together in the same category.", //  (Huinanzi and other guy)
         display: {
           brightness: 0.5,
           position: { x: -4, y: 2, z: 0 }, // intended to be to the left
         },
       },
       history: {
-        quote: "later chapter stuff",
+        quote: "", // 
         explanation:
-          "Despite his vicious disapproval of Confucius, Mozi places great authority in the classics. Because of this, by the time of the unification and the Han dynasty, they were often lumped together in the same sentence (Huinanzi and other guy)",
+          "In addition to the Odes, Mozi also appeals to the History to support the existence of ghosts. In addition, he its stories of rulers who were buried in nondescript ways to advocate for modest burials, which later became a hallmark of Mohism.",
         display: {
           brightness: 0.5,
           position: { x: -4, y: -2, z: 0 }, // intended to be to the left
