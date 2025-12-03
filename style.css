@@ -114,6 +114,7 @@
 
 #scroll-area {
     height: 500vh;
+    overscroll-behavior: none;
 }
 
 #back-button {
@@ -133,4 +134,8 @@
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
+}
+
+.italic {
+    font-style: italic;
 }

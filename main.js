@@ -328,9 +328,10 @@ scene.add(guqin.scene);
 // Blur plane
 const blurDuration = 1;
 const planeGeom = new THREE.PlaneGeometry(200, 200, 1, 1);
-const planeMat = new THREE.MeshPhysicalMaterial({
-  transmission: 1,
-  roughness: 0.4,
+const planeMat = new THREE.MeshBasicMaterial({
+  color: "black",
+  //transmission: 1,
+  //roughness: 0.1,
   transparent: true,
   opacity: 0,
 });
@@ -406,7 +407,7 @@ function makeRelationshipLines(
   selectedPhilId,
   views,
   relationships,
-  basePosition,
+  displayPosition,
   orbMap,
   axis,
   timeline,
@@ -415,7 +416,7 @@ function makeRelationshipLines(
   for (let i = 0; i < relationships.length; i++) {
     const relationship = relationships[i];
     console.assert(relationship.from || relationship.to);
-    basePosition = basePosition || new THREE.Vector3(0, 0, 0);
+    displayPosition = displayPosition || new THREE.Vector3(0, 0, 0);
     const from = relationship.from || selectedPhilId;
     const to = relationship.to || selectedPhilId;
     let color;
@@ -437,10 +438,10 @@ function makeRelationshipLines(
       opacity: 0,
     });
     const fromPos = new THREE.Vector3().copy(
-      from == selectedPhilId ? basePosition : views[from].display.position
+      from == selectedPhilId ? displayPosition : views[from].display.position
     );
     const toPos = new THREE.Vector3().copy(
-      to == selectedPhilId ? basePosition : views[to].display.position
+      to == selectedPhilId ? displayPosition : views[to].display.position
     );
     //const relGeom = new THREE.BufferGeometry().setFromPoints([fromPos, toPos]);
     const tubeGeometry = new THREE.TubeGeometry(
@@ -473,6 +474,12 @@ function makeRelationshipLines(
 }
 
 // UI panes
+function removeAllParagraphs(domElement) {
+  const pars = domElement.querySelectorAll("p");
+  for (const par of pars) {
+    par.remove();
+  }
+}
 const backButton = document.getElementById("back-button");
 const infoPanels = document.getElementById("info-panels");
 const leftPanel = document.getElementById("left-panel");
@@ -484,6 +491,7 @@ function fillPanes(selectedPhil) {
   const subheading = document.querySelector("#right-panel > h4:first-of-type");
   const headCN = heading.querySelector(".cn");
   const headEN = heading.querySelector(".en");
+  removeAllParagraphs(rightPanel);
   if (selectedPhil.description) {
     for (const paragraphText of selectedPhil.description) {
       const paragraph = document.createElement("p");
@@ -491,10 +499,13 @@ function fillPanes(selectedPhil) {
       rightPanel.appendChild(paragraph);
     }
   }
+
   headCN.textContent = selectedPhil.chineseName;
   headCN.style.textShadow = schoolMap[selectedPhil.school].color + " -5px 5px";
   headEN.textContent = selectedPhil.name;
-  subheading.textContent = schoolMap[selectedPhil.school].name;
+  subheading.textContent =
+    "ca. " + selectedPhil.dates[0] + " BC - " + selectedPhil.dates[1] + " BC";
+  subheading.classList.remove("italic");
   //description.textContent = selectedPhil.description || "Description pending";
 
   bottomPanel.replaceChildren();
@@ -655,7 +666,8 @@ function changeState(destState, destPhilId) {
     );
     // make these orbs glow more
     modifyCamera(
-      orbPerspectiveAxis.position.z + (vertical ? 25 * 0.2 : 25 * aspect * -0.5),
+      orbPerspectiveAxis.position.z +
+        (vertical ? 25 * 0.2 : 25 * aspect * -0.5),
       25, // magic num
       tl,
       startTime,
@@ -670,7 +682,7 @@ function changeState(destState, destPhilId) {
         selectedPhilId,
         selectedPhil.views,
         selectedPhil.relationships,
-        selectedPhil.basePosition,
+        selectedPhil.displayPosition,
         orbMap,
         orbPerspectiveAxis,
         tl,
@@ -699,16 +711,31 @@ function showSecondary(destPhilId) {
   const headCN = heading.querySelector(".cn");
   const headEN = heading.querySelector(".en");
 
-  const description = document.querySelector("#right-panel > p:first-of-type");
-
   const view = philosopherMap[selectedPhilId].views[destPhilId];
   const secondaryPhil = philosopherMap[destPhilId];
 
   headCN.textContent = secondaryPhil.chineseName;
   headCN.style.textShadow = schoolMap[secondaryPhil.school].color + " -2px 2px";
   headEN.textContent = secondaryPhil.name;
-  subheading.textContent = view.quote;
-  description.textContent = view.explanation || "Description pending";
+
+  removeAllParagraphs(rightPanel);
+  if (selectedPhilId != secondaryPhilId) {
+    const description = document.createElement("p");
+    rightPanel.appendChild(description);
+    description.textContent = view.explanation || "Description pending";
+
+    subheading.textContent = view.quote != "" ? '"' + view.quote + '"' : "";
+  subheading.classList.add("italic");
+    return;
+  }
+  // otherwise it's the main philosopher and his full description
+  for (const paragraphText of secondaryPhil.description) {
+    console.log("Huh!")
+    const paragraph = document.createElement("p");
+    paragraph.textContent = paragraphText;
+    rightPanel.appendChild(paragraph);
+  }
+
   // leftPanel.style.opacity = 1;
 }
 
@@ -719,11 +746,11 @@ function onPointerDown(event) {
   if (currentState == "neutral") {
     changeState("perspective", pointedPhilId);
   } else if (currentState == "perspective") {
+    showSecondary(pointedPhilId);
     if (pointedPhilId == secondaryPhilId) {
       // TBA
       // changeState("perspective", pointedPhilId);
     } else {
-      showSecondary(pointedPhilId);
     }
   }
 }
@@ -825,11 +852,11 @@ function handleResize() {
 }
 // bad
 if (aspect < 1) {
-    setVertical();
-  } else {
-    setHorizontal();
-  }
-  updateCamera();
+  setVertical();
+} else {
+  setHorizontal();
+}
+updateCamera();
 
 window.addEventListener("resize", handleResize);
 
