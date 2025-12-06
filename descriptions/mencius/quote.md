@@ -1,1 +1,1 @@
-The heart of compassion is the sprout of benevolence.
+*"The heart of compassion is the sprout of benevolence."*

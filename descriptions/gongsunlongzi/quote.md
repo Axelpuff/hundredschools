@@ -1,1 +1,1 @@
-A white horse is not a horse.
+*"A white horse is not a horse."*

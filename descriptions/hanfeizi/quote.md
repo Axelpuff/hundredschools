@@ -1,1 +1,1 @@
-The wise ruler uses law, not virtue, to govern.
+*"The wise ruler uses law, not virtue, to govern."*

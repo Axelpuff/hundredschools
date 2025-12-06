@@ -1,1 +1,1 @@
-When laws are fixed and clear, the people cannot be unruly.
+*"When laws are fixed and clear, the people cannot be unruly."*

@@ -3,7 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { schools, philosophers } from "./philosophers.js";
 import { gsap } from "https://cdn.jsdelivr.net/npm/gsap@3.13/+esm";
-import { LineMaterial } from "three/addons/lines/LineMaterial.js";
+import { MarkdownBlock, MarkdownSpan, MarkdownElement } from "https://md-block.verou.me/md-block.js";
 
 const schoolMap = Object.fromEntries(schools.map((p) => [p.id, p]));
 const philosopherMap = Object.fromEntries(philosophers.map((p) => [p.id, p]));
@@ -480,11 +480,12 @@ function makeRelationshipLines(
 
 // UI panes
 function removeAllParagraphs(domElement) {
-  const pars = domElement.querySelectorAll("p");
+  const pars = domElement.querySelectorAll("md-block");
   for (const par of pars) {
     par.remove();
   }
 }
+
 const backButton = document.getElementById("back-button");
 const infoPanels = document.getElementById("info-panels");
 const leftPanel = document.getElementById("left-panel");
@@ -496,14 +497,12 @@ function fillPanes(selectedPhil) {
   const subheading = document.querySelector("#right-panel > h4:first-of-type");
   const headCN = heading.querySelector(".cn");
   const headEN = heading.querySelector(".en");
+
   removeAllParagraphs(rightPanel);
-  if (selectedPhil.description) {
-    for (const paragraphText of selectedPhil.description) {
-      const paragraph = document.createElement("p");
-      paragraph.textContent = paragraphText;
-      rightPanel.appendChild(paragraph);
-    }
-  }
+
+  const md_block = document.createElement("md-block");
+  md_block.setAttribute("src", "descriptions/" + selectedPhil.id + "/description.md");
+  rightPanel.appendChild(md_block);
 
   headCN.textContent = selectedPhil.chineseName;
   headCN.style.textShadow = schoolMap[selectedPhil.school].color + " -5px 5px";
@@ -511,7 +510,6 @@ function fillPanes(selectedPhil) {
   subheading.textContent =
     "ca. " + selectedPhil.dates[0] + " BC - " + selectedPhil.dates[1] + " BC";
   subheading.classList.remove("italic");
-  //description.textContent = selectedPhil.description || "Description pending";
 
   bottomPanel.replaceChildren();
   //const subpanels = [];
@@ -526,7 +524,7 @@ function fillPanes(selectedPhil) {
     subpanel.className = "card glass-panel p-2 mb-2 w-25";
     cn.textContent = term.term;
     en.textContent = " (" + term.pinyin + ")";
-    termDesc.textContent = term.description;
+    /* termDesc.textContent = term.description; */
     termHead.appendChild(cn);
     termHead.appendChild(en);
     subpanel.appendChild(termHead);
@@ -722,26 +720,33 @@ function showSecondary(destPhilId) {
   headCN.textContent = secondaryPhil.chineseName;
   headCN.style.textShadow = schoolMap[secondaryPhil.school].color + " -2px 2px";
   headEN.textContent = secondaryPhil.name;
-
   removeAllParagraphs(rightPanel);
-  if (selectedPhilId != secondaryPhilId) {
-    const description = document.createElement("p");
-    rightPanel.appendChild(description);
-    description.textContent = view.explanation || "Description pending";
+  const md_block = document.createElement("md-block");
+   if (selectedPhilId != secondaryPhilId) {
+    md_block.setAttribute("src", "descriptions/" + selectedPhilId + "/views/" + secondaryPhilId + "/description.md");
 
-    subheading.textContent = view.quote != "" ? '"' + view.quote + '"' : "";
-  subheading.classList.add("italic");
-    return;
-  }
+    const md_quote = document.createElement("md-block");
+    md_quote.setAttribute("src", "descriptions/" + selectedPhilId + "/views/" + secondaryPhilId + "/quote.md");
+    md_quote.className = "italic h4"
+    const md_quoteSource = document.createElement("md-block");
+    md_quoteSource.setAttribute("src", "descriptions/" + selectedPhilId + "/views/" + secondaryPhilId + "/quoteSource.md");
+    md_quoteSource.className = "blockquote-footer";
+    
+    //rightPanel.appendChild(md_quote);
+    rightPanel.appendChild(md_quoteSource);
+
+    rightPanel.appendChild(md_block);
+    
+    subheading.appendChild(md_quote); //view.quote != "" ? '"' + view.quote + '"' : "";
+    subheading.appendChild(md_quoteSource);
+    subheading.classList.add("italic");
+  } else {
   // otherwise it's the main philosopher and his full description
-  for (const paragraphText of secondaryPhil.description) {
-    console.log("Huh!")
-    const paragraph = document.createElement("p");
-    paragraph.textContent = paragraphText;
-    rightPanel.appendChild(paragraph);
+  md_block.setAttribute("src", "descriptions/" + selectedPhilId + "/description.md");
+  rightPanel.appendChild(md_block);
   }
+  
 
-  // leftPanel.style.opacity = 1;
 }
 
 function onPointerDown(event) {

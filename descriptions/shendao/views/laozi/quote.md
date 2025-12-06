@@ -1,1 +1,1 @@
-The Way of Heaven is such that if you "follow" then you will be great, while if you alter then you will be insignificant.
+*"The Way of Heaven is such that if you "follow" then you will be great, while if you alter then you will be insignificant."*

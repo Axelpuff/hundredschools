@@ -1,1 +1,1 @@
-Human nature is bad; goodness is a matter of deliberate activity.
+*"Human nature is bad; goodness is a matter of deliberate activity."*

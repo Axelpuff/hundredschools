@@ -1,1 +1,1 @@
-When the heart is settled, the vital energy becomes aligned.
+*"When the heart is settled, the vital energy becomes aligned."*

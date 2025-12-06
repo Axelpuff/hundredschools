@@ -1,1 +1,1 @@
-Human nature is bad.
+*"Human nature is bad."*

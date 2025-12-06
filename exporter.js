@@ -1,11 +1,11 @@
 import fs from "node:fs/promises";
-import { philosophers } from "./philosophers.js";
+import { philosophers } from "./philosophers_old.js";
 
 function basicCallback(err) {
   if (err) {
     console.error(err);
   }
-};
+}
 
 for (const philosopher of philosophers) {
   const path = "./export/" + philosopher.id;
@@ -22,8 +22,11 @@ for (const philosopher of philosophers) {
     philosopher.description || "TBA",
     basicCallback
   );
-  fs.writeFile(path + "/quote.md", philosopher.quote || "TBA", basicCallback);
-  fs.writeFile(path + "/quoteSource.md", "TBA", basicCallback);
+  fs.writeFile(
+    path + "/quote.md",
+    '*"' + philosopher.quote + '"*' || "TBA",
+    basicCallback
+  );
   for (const viewedId in philosopher.views) {
     const viewPath = viewsPath + "/" + viewedId;
     await fs.mkdir(viewPath, basicCallback);
@@ -34,10 +37,9 @@ for (const philosopher of philosophers) {
     );
     fs.writeFile(
       viewPath + "/quote.md",
-      philosopher.views[viewedId].quote || "TBA",
+      '*"' + philosopher.views[viewedId].quote + '"*' || "TBA",
       basicCallback
     );
-    fs.writeFile(viewPath + "/quoteSource.md", "TBA", basicCallback);
   }
   for (const keyTerm of philosopher.keyTerms) {
     const keyTermPath = keyTermsPath + "/" + keyTerm.id;
@@ -49,9 +51,8 @@ for (const philosopher of philosophers) {
     );
     fs.writeFile(
       keyTermPath + "/quote.md",
-      keyTerm.quote || "TBA",
+      '*"' + keyTerm.quote + '"*' || "TBA",
       basicCallback
     );
-    fs.writeFile(keyTermPath + "/quoteSource.md", "TBA", basicCallback);
   }
 }

@@ -1,1 +1,1 @@
-Only with you can I speak of the odes!
+*"Only with you can I speak of the odes!"*

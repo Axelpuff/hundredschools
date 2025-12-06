@@ -1,1 +1,1 @@
-The benevolent care for others impartially.
+*"The benevolent care for others impartially."*

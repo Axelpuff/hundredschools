@@ -1,1 +1,1 @@
-A Way (Dao) that can be followed (Dao) is not a constant Way.
+*"A Way (Dao) that can be followed (Dao) is not a constant Way."*
