@@ -1,0 +1,1 @@
+Confucius views the Odes as one of the main sources of cultural refinement.

@@ -1,0 +1,1 @@
+Compared to other texts, the Analects spends less time on the sage, focusing instead on the more achievable status of "junzi", or "gentleman" (the Chinese term is gender-neutral). The gentleman is not perfect, but has reached a reasonable level of self-cultivation as outlined by Confucius.

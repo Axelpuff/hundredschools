@@ -1,0 +1,1 @@
+"xing" refers to human nature. Since it is given by heaven, it is basically good. Yang Zhu's philosophy implied that this nature can be trusted to lead people in the right direction.

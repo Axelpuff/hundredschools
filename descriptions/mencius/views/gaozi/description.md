@@ -1,0 +1,1 @@
+Gaozi, a Mohist, is presented in the eponymous chapter of the Mencius as a foil to Mencius. Gaozi's questions allow Mencius to display his nuanced view of human nature, which refutes the two extremes of the Mohists and the Yangists.

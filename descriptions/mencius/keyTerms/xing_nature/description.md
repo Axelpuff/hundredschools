@@ -1,0 +1,1 @@
+Unlike the Mohists, Mencius considers human nature ("xìng") to be essentially good (善, "shàn"), although not to the extent of the Yangists.

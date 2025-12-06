@@ -1,0 +1,1 @@
+In the Analects, "dao" can refer to the way a specific thing is done, or the way a person lives. Generally, it is the right or virtuous way to live.

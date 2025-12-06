@@ -1,0 +1,1 @@
+Mozi focused on profit, but did not understand proper form.

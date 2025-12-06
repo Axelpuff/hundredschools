@@ -1,0 +1,1 @@
+Xunzi writes that Huizi was a master of words, but did not comprehend the importance of actual things.

@@ -1,0 +1,1 @@
+When laws are fixed and clear, the people cannot be unruly.

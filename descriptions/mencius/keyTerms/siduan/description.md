@@ -1,0 +1,1 @@
+Mencius described goodness as having sprouts of benevolence, righteousness, propriety, and wisdom, each rooted in basic human attitudes and instinctual reactions. Cultivated properly, not forced out of the ground like the Mohists or left to wither like the Yangists, these sprouts will mature.

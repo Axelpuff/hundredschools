@@ -1,0 +1,1 @@
+Xunzi sees Mozi as focusing on material profit at the expense of the proper form of ritual, which has inherent value.

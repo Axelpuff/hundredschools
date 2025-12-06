@@ -1,0 +1,1 @@
+The wandering, shifting Way beyond fixed distinctions.

@@ -1,0 +1,1 @@
+Laozi appears as a character in the inner chapters of the Zhuangzi multiple times, usually critiquing Confucius. One major scene is Laozi's funeral, which is one of the first times Zhuangzi's attitude towards death is expressed (it's just another transformation).

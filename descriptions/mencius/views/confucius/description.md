@@ -1,0 +1,1 @@
+Mengzi takes Confucius as his model. To Mencius, Confucius walks a middle path that doesn't stray into the dangerous extremes of the Mohists or Yangists. While Mengzi at times expresses humility, it is unclear how humble he truly is, as he is willing to elaborate on subjects that Confucius refused to cover.

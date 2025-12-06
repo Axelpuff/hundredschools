@@ -1,0 +1,1 @@
+Mencius sees Mozi's impartial caring ("jian'ai") as an unachievable version of morality. Real goodness must start with one's family, and only then can it be extended outwards with training. Unlike Mozi, Mencius also questions the literal truth of the events in the History, whereas Mozi relies on their literal truth to claim the reality of a just cosmos.

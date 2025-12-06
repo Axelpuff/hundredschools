@@ -1,0 +1,1 @@
+The Neiye may be an individual practice based on the Laozi, or the Laozi may be an extension of the Neiye's cosmology.

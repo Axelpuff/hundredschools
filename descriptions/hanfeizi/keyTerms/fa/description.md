@@ -1,0 +1,1 @@
+Law as the objective standard of governance.

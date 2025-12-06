@@ -1,0 +1,1 @@
+The Odes is a collection of poetry and one of the "Five Classics" of the Confucian traidition, although it predates Confucius. The Odes include folk songs as well as poems about the Zhou dynasty. Appealing to the Odes through interpretation of its poems would become a critical tactic for Confucius, Mozi, Mencius, and later thinkers in their traditions.

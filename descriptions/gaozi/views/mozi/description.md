@@ -1,0 +1,1 @@
+In the Mencius, Gaozi is portrayed as a characteristic follower of Mozi, carrying on with Mencius the animosity between Confucius and Mozi.

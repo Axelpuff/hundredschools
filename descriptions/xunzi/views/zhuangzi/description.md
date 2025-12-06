@@ -1,0 +1,1 @@
+Xunzi writes that Zhuangzi wrote about Heaven's perspective while neglecting the essential human perspective.

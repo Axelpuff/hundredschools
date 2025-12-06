@@ -1,0 +1,1 @@
+Xunzi strongly praises ritual as the system that gives proper form to human dispositions.

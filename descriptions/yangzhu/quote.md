@@ -1,0 +1,1 @@
+If plucking a single hair would benefit the world, he would not do it.

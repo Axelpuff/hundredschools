@@ -1,0 +1,1 @@
+The benevolent care for others impartially.

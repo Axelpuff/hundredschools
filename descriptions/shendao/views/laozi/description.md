@@ -1,0 +1,1 @@
+Some of Shen Dao's ideas seem based on the Laozi: he refers to the paradoxical nature of the "Way of Heaven", as well as claiming that a ruler must not try to handle everything individually or force others to change.

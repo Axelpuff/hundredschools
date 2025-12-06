@@ -1,0 +1,1 @@
+This would make Huang Di’s ears ring. How could Kongzi understand it?

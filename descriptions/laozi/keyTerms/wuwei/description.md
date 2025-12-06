@@ -1,0 +1,1 @@
+The Laozi uses wuwei (nonaction) to refer to a state of emptiness and stillness which one should actively seek in the self-cultivation process. This nonaction is not fully literal--one should seek to act in a state of nonaction. It is crucial in the Laozi, unlike Confucius' aspirational wuwei (which is more of a distant end state).

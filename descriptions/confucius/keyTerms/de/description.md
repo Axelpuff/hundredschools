@@ -1,0 +1,1 @@
+Confucius reinterprets "de" as moral charisma, cultivated through ritual practice. It is a corrective force that starts within the individual and can influence the entire state.

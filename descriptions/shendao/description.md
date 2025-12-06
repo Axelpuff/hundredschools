@@ -1,0 +1,1 @@
+Shen Dao is a thinker who focused on political theory and whose work only survives in the form of the "Shenzi fragments". Shen Dao claimed that when the law is as automatic and impartial as nature itself, the people will not build resentment towards the ruler or each other. Xunzi critiqued his ideas, and Han Feizi built on them.

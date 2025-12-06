@@ -1,0 +1,1 @@
+Confucius sees the history as one of the most important documents of learning.

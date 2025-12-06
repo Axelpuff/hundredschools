@@ -1,0 +1,1 @@
+Xunzi writes that Shen Dao understood the importance of the law, but did not understand the role of individual virtue.

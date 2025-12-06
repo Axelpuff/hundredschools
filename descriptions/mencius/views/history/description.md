@@ -1,0 +1,1 @@
+Mencius takes a critical attitude towards the Classics. While still using them as a source of argumentation, Mencius clearly states his disbelief in a literal reading of the History.

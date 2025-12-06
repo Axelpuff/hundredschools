@@ -1,0 +1,1 @@
+Mozi's term "jian'ai" literally translates to "impartial caring". It describes a highly rationalist moral system in which every person should be prioritized equally and held to the same standards, with notions like noble birth eliminated.

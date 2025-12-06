@@ -1,0 +1,1 @@
+Man's nature is like a tree, and righteousness is like cups and bowls.

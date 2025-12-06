@@ -1,0 +1,1 @@
+In addition to the Odes, Mozi also appeals to the History to support the existence of ghosts. In addition, he its stories of rulers who were buried in nondescript ways to advocate for modest burials, which later became a hallmark of Mohism.

@@ -1,0 +1,1 @@
+Xunzi writes that Laozi understood the virtue of not acting, but did not understand the role of intentional action.

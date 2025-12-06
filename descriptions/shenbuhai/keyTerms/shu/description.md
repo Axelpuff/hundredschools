@@ -1,0 +1,1 @@
+Often translated as "administrative methods"; a system developed by Shen Buhai to assess the performance of officials by comparing míng and xíng. 

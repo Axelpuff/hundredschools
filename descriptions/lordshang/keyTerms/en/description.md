@@ -1,0 +1,1 @@
+Lord Shang claims that the ultimate effect of strict laws will produce (or be viewed as) "ēn", often translated as "kindness".

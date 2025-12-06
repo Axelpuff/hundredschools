@@ -1,0 +1,1 @@
+Xunzi sees Confucius as the greatest sage in history. Unlike the later thinkers, Confucius did not fall into the trap of getting fixated on "one corner of the way".

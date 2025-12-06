@@ -1,0 +1,1 @@
+Gaozi says to Mencius that human nature ("xing") is like a tree, and that righteousness is like "cups and bowls". Basically, human nature must be molded by force to become good.

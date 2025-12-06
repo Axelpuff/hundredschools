@@ -1,0 +1,1 @@
+The Dao is a cosmic force that pervades everything, but can only be known and harnessed through inner contemplation. The Neiye suggests that this gives one insight into the future and a supernatural understanding of the "myriad things".

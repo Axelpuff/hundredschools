@@ -1,0 +1,1 @@
+When a man rides a carriage, it is the carriage that is noble, not the man.

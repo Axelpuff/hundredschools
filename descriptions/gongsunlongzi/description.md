@@ -1,0 +1,1 @@
+Gongsun Longzi was another philosopher of the "School of Names". Similar to Huizi, he is known for his philosophy of language. His most famous claim, "A white horse is not a horse," plays with the precise meaning of the word 非 (is not) and was later picked up by Zhuangzi.

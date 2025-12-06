@@ -1,0 +1,1 @@
+Qi, or "vital energy", makes up everything in the cosmos. It comes in various forms and moves in various ways. Good health and inner power require healthy regulation of one's qi.

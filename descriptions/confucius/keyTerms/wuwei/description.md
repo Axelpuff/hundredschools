@@ -1,0 +1,1 @@
+Confucius uses "wuwei" to describe an unachievable state of virtue, at which behaving virtuously becomes effortless.

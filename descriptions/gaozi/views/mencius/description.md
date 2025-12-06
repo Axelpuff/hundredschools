@@ -1,0 +1,1 @@
+In the Mencius, Gaozi acts as a foil to Mencius, and his challenges allow Mencius to expand on his philosophy (and look good).

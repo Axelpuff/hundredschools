@@ -1,0 +1,1 @@
+Mencius saw Yang Zhu as going wrong, but precisely in the opposite direction of Mozi. Yang Zhu's unrestrained sanctioning of following one's nature is dangerous, as the sprouts of virtue require intentional care.

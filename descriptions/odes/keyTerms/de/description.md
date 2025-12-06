@@ -1,0 +1,1 @@
+The term "de", as it is used in the early classical texts, refers to a kind of "royal virtue" and is less defined in terms of moral characteristics. It is a kind of spiritual power and authority maintained through proper conduct as a ruler.

@@ -1,0 +1,1 @@
+Xunzi sees Mencius' description of human nature as dangerous. Implying that goodness comes about naturally, like sprouts growing, will cause people to mistakenly neglect the difficult task of self-cultivation.

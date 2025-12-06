@@ -1,0 +1,1 @@
+Strongly against Mencius, Xunzi argues that human nature (xing) is fundamentally bad (惡, è).

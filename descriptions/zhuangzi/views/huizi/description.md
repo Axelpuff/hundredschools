@@ -1,0 +1,1 @@
+Multiple dialogs in the Zhuangzi are a discussion between Huizi and Zhuangzi. Huizi often plays the rational, logical foil to Zhuangzi's absurdity. Outside of these scenes, Zhuangzi treats him as a brilliant but futile thinker, someone he respects deeply but also thinks is trapped in distinctions.

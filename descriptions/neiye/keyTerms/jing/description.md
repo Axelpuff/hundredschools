@@ -1,0 +1,1 @@
+Jing, or "vital essence", is the highest form of qi and is only possessed by living beings.

@@ -1,0 +1,1 @@
+Despite his vicious disapproval of Confucius, Mozi places great authority in the same classical documents, such as the Odes. Mozi appeals to the Odes at one point to argue that ghosts and spirits are real. Because of their common heritage, by the time of the unification and the Han dynasty, Confucius and Mozi were often lumped together in the same category.

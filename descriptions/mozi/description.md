@@ -1,0 +1,1 @@
+Mozi was a thinker of modest background who advocated for a hierarchical authoritarian society, founded on a belief in a just cosmos that rewards the good and punishes the bad. Mozi's consequentialist ethics have little regard for anything beyond the wealth, population, and order of the state. His followers were referred to as Mohists.
