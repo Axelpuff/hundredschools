@@ -135,16 +135,14 @@ export const philosophers = [
     id: 'gaozi',
     name: 'Gaozi',
     chineseName: '告子',
-    school: 'mohist',
+    school: 'daoist',
     major: false,
     dates: [ 420, 350 ],
     string: 3,
     relationships: [
-      { from: 'mozi', kind: 'buildsOn', emphasis: 0.8 },
       { to: 'mencius', kind: 'opposes', emphasis: 1 }
     ],
     views: {
-      mozi: { display: { brightness: 0.5, position: { x: -5, y: 0, z: 0 } } },
       mencius: { display: { brightness: 0.5, position: { x: 0, y: -5, z: 0 } } }
     },
     keyTerms: [ { id: 'xing_nature', term: '性', pinyin: 'xìng' } ],

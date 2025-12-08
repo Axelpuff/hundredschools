@@ -1,0 +1,1 @@
+Han Feizi agrees with Shen Dao that expecting the people to change is futile.

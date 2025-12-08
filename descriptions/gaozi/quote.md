@@ -1,1 +1,1 @@
-*"Man's nature is like a tree, and righteousness is like cups and bowls."*
+*"'Human nature is like a willow tree; righteousness is like cups and bowls. To make human nature benevolent and righteous is like making a willow tree into cups and bowls.'"* (*Mencius* 6A.1)

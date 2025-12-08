@@ -1,1 +1,1 @@
-*"I transmit but do not innovate. I trust and love the ancients."*
+*"The Master [Confucius] said, 'I transmit rather than innovate. I trust in and love the ancient ways...'"* (*Analects* 7.1)

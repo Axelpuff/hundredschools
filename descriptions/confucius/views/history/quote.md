@@ -1,1 +1,1 @@
-*"TBA"*
+*"Some people said of Kongzi [Confucius], 'Why is it that he is not participating in government?' The Master [Confucius] remarked, 'The *History* says...'"* (*Analects* 2.21)

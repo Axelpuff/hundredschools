@@ -1,1 +1,1 @@
-*"TBA"*
+*"in the records of the Xia and in the following works of the Shang and the Zhou, there are numerous and repeated references to ghosts and spirits. Why is this the case? Because the sage-kings were devoted to them. How can anyone who considers what these books say still doubt the existence of ghosts and spirits?"* (Mozi, Chapter Thirty-One)

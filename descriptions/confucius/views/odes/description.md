@@ -1,1 +1,1 @@
-Confucius views the Odes as one of the main sources of cultural refinement.
+Confucius highly values the *Odes*. Several scenes in the *Analects* involve Confucius praising them or his students' interpretations of them, and in the *Analects* the *Odes* serve as a rich source of metaphors for self-cultivation and Confucius' conception of virtue. Knowledge of them is part of what Confucius describes as "cultural refinement," and is therefore inseparable for following the Way.

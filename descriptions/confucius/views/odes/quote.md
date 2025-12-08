@@ -1,1 +1,1 @@
-*"Only with you can I speak of the odes!"*
+*"The Master [Confucius] said, 'Zigong, you are precisely the kind of person with whom one can begin to discuss the *Odes*. Informed as to what has gone before, you know what is to come."* (*Analects* 1.15)

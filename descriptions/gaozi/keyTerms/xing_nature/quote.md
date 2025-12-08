@@ -1,1 +1,1 @@
-*"TBA"*
+*"Gaozi said, 'Human nature is like swirling water. Make an opening for it on the eastern side, then it flows east. Make an opening for it on the western side, then it flows west. Human nature's not distinguishing between good and not good is like water's not distringuishing between eastern and western."* (*Mencius* 6A2)

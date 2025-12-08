@@ -1,1 +1,1 @@
-In the Mencius, Gaozi acts as a foil to Mencius, and his challenges allow Mencius to expand on his philosophy (and look good).
+Mencius was a rival philosopher to Gaozi. The Gaozi passages in the *Mencius* show dialogs in which Mencius has the last word, and help to expound Mencius' philosophy about human nature and where benevolence and righteousness come from.

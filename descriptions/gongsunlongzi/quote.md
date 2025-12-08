@@ -1,1 +1,1 @@
-*"A white horse is not a horse."*
+*"Can it be that a white horse is not a horse?"* ("On the White Horse" A)

@@ -1,0 +1,1 @@
+Han Feizi's description of a successful ruler appears to be heavily inspired by the *Laozi*. The ruler is appear empty and give no sign. He manipulates his ministers and achieves great success without visibly doing anything. Great plans unfold while his wisdom remains hidden.

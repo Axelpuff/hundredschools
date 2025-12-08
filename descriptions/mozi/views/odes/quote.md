@@ -1,1 +1,2 @@
-*"TBA"*
+*"The [*Odes*] says ... '[King Wen] moves to the left and the right of the Lord.' ... If ghosts and spirits do not exist, how could King Wen move to the left and the right of the Lord?"*
+(Mozi, Chapter Thirty-One)

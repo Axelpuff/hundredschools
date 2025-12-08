@@ -1,0 +1,5 @@
+Han Feizi's view of Confucians and Mohists appears similar to Lord Shang's critique. In Lord Shang's view, they do not produce anything valuable for the state. The fact they can make a living and gain office and respect without contributing to agriculture and war inspires other people to waste their time trying to do the same. Similar to Lord Shang, Han Feizi argues that ruling by virtue worked in high antiquity but is no longer relevant.
+ 
+Han Feizi considers Lord Shang's implementation of the law to be the necessary complement to Shen Buhai's standards of performance.
+
+By itself, Han Feizi considers Lord Shang's philosophy flawed and short-sighted. Promoting people to official roles for the amount of enemy soldiers they kill, as Lord Shang does, will not ensure that officials are competent.
