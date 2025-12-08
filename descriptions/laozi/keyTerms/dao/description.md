@@ -1,1 +1,1 @@
-The Dao is the unknowable, undifferentiated mass that exists before anything else exists. Once things die or break down, they return back to the Dao. One can seek alignment with the Dao through suppleness and weakness, or try to use force and be broken by it.
+The Dao is the unknowable, undifferentiated unity that exists before anything else exists. Once things die or break down, they return back to the Dao. One can seek alignment with the Dao through suppleness and weakness, or try to use force and be broken by it.

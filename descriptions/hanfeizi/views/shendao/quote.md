@@ -1,0 +1,1 @@
+*"How could this criticize the words [of Shenzi], based on the principles of the Way? The discussions of the critic do not approach the level of [Shenzi's] theory."* (Han Feizi, Chapter Forty)

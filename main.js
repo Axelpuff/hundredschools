@@ -494,58 +494,141 @@ function removeAllParagraphs(domElement) {
 
 const backButton = document.getElementById("back-button");
 const infoPanels = document.getElementById("info-panels");
-const leftPanel = document.getElementById("left-panel");
 const rightPanel = document.getElementById("right-panel");
 const bottomPanel = document.getElementById("bottom-panel");
-function fillPanes(selectedPhil) {
-  // fill panes with information
-  const heading = document.querySelector("#right-panel > div:first-of-type");
-  const subheading = document.querySelector("#right-panel > h4:first-of-type");
-  const headCN = heading.querySelector(".cn");
-  const headEN = heading.querySelector(".en");
+const heading = rightPanel.querySelector("div");
+const subheading = rightPanel.querySelector("h4");
+const md_block = rightPanel.querySelector("md-block");
+const headCN = heading.querySelector(".cn");
+const headEN = heading.querySelector(".en");
 
-  removeAllParagraphs(rightPanel);
-
-  const md_block = document.createElement("md-block");
-  md_block.setAttribute(
+function makeSubpanel(mainPhilId, term) {
+  const subpanel = document.createElement("div");
+  const termHead = document.createElement("h1");
+  const cn = document.createElement("span");
+  const en = document.createElement("span");
+  const termDesc = document.createElement("md-block");
+  cn.className = "cn";
+  en.className = "en";
+  subpanel.className = "card glass-panel p-2 mb-2 w-25";
+  cn.textContent = term.term;
+  en.textContent = " (" + term.pinyin + ")";
+  /* termDesc.textContent = term.description; */
+  termDesc.setAttribute(
     "src",
-    "descriptions/" + selectedPhil.id + "/description.md"
+    "descriptions/" + mainPhilId + "/keyTerms/" + term.id + "/description.md"
   );
-  rightPanel.appendChild(md_block);
+  termHead.appendChild(cn);
+  termHead.appendChild(en);
+  subpanel.appendChild(termHead);
+  subpanel.appendChild(termDesc);
+  return subpanel;
+}
 
-  headCN.textContent = selectedPhil.chineseName;
-  headCN.style.textShadow = schoolMap[selectedPhil.school].color + " -5px 5px";
-  headEN.textContent = selectedPhil.name;
-  subheading.textContent =
-    "ca. " + selectedPhil.dates[0] + " BC - " + selectedPhil.dates[1] + " BC";
-  subheading.classList.remove("italic");
-
+function makeSubpanels(mainPhil) {
   bottomPanel.replaceChildren();
   //const subpanels = [];
-  for (const term of selectedPhil.keyTerms) {
-    const subpanel = document.createElement("div");
-    const termHead = document.createElement("h1");
-    const cn = document.createElement("span");
-    const en = document.createElement("span");
-    const termDesc = document.createElement("p");
-    cn.className = "cn";
-    en.className = "en";
-    subpanel.className = "card glass-panel p-2 mb-2 w-25";
-    cn.textContent = term.term;
-    en.textContent = " (" + term.pinyin + ")";
-    /* termDesc.textContent = term.description; */
-    termHead.appendChild(cn);
-    termHead.appendChild(en);
-    subpanel.appendChild(termHead);
-    subpanel.appendChild(termDesc);
-    bottomPanel.appendChild(subpanel);
-    //subpanels.push(subpanel);
+  for (const term of mainPhil.keyTerms) {
+    bottomPanel.appendChild(makeSubpanel(mainPhil.id, term));
   }
-  //bottomPanel.appendChild(subpanels);
+}
+
+// secondaryPhil is an optional argument
+function fillPanes(perspectivePhil, secondaryPhil) {
+  const mainPhil = secondaryPhil || perspectivePhil;
+
+  // attempt to remove the last set philosopher's description
+  md_block.removeAttribute("rendered");
+  md_block.replaceChildren();
+
+  // description
+  md_block.setAttribute(
+    "src",
+    "descriptions/" +
+      perspectivePhil.id +
+      (mainPhil != perspectivePhil
+        ? "/views/" + secondaryPhil.id + "/description.md"
+        : "/description.md")
+  );
+
+  // reset right pane's scroll
+  rightPanel.scroll(0, 0);
+
+  // title
+  headCN.textContent = mainPhil.chineseName;
+  headCN.style.textShadow = schoolMap[mainPhil.school].color + " -5px 5px";
+  headEN.textContent = mainPhil.name;
+
+  // subtitle
+  if (mainPhil != perspectivePhil) {
+    const md_quote = document.createElement("md-block");
+    md_quote.setAttribute(
+      "src",
+      "descriptions/" +
+        selectedPhilId +
+        "/views/" +
+        secondaryPhilId +
+        "/quote.md"
+    );
+    subheading.textContent = "";
+    subheading.appendChild(md_quote);
+    subheading.classList.add("quote");
+  } else {
+    subheading.replaceChildren();
+    subheading.textContent =
+      "ca. " +
+      perspectivePhil.dates[0] +
+      " BC - " +
+      perspectivePhil.dates[1] +
+      " BC";
+    subheading.classList.remove("quote");
+  }
+
+  // terms
+  makeSubpanels(mainPhil);
 
   // show panes on right side and bottom
   // tween pane opacity
-  leftPanel.style.opacity = 0;
+}
+
+function showSecondary(destPhilId) {
+  if (transitioning) return; // should the caller be responsible for this?
+  //if (destPhilId == selectedPhilId) destPhilId = null;
+  secondaryPhilId = destPhilId;
+  if (!destPhilId) {
+    return;
+  }
+  fillPanes(philosopherMap[selectedPhilId], philosopherMap[destPhilId]);
+  /*  const view = philosopherMap[selectedPhilId].views[destPhilId];
+  const secondaryPhil = philosopherMap[destPhilId];
+
+  headCN.textContent = secondaryPhil.chineseName;
+  headCN.style.textShadow = schoolMap[secondaryPhil.school].color + " -2px 2px";
+  headEN.textContent = secondaryPhil.name;
+  removeAllParagraphs(rightPanel);
+  const md_block = document.createElement("md-block");
+  if (selectedPhilId != secondaryPhilId) {
+    md_block.setAttribute(
+      "src",
+      "descriptions/" +
+        selectedPhilId +
+        "/views/" +
+        secondaryPhilId +
+        "/description.md"
+    );
+
+    subheading.textContent = "";
+    subheading.appendChild(md_quote); //view.quote != "" ? '"' + view.quote + '"' : "";
+    subheading.classList.add("quote");
+  } else {
+    // otherwise it's the main philosopher and his full description
+    // !!! dates don't get restored rn
+    md_block.setAttribute(
+      "src",
+      "descriptions/" + selectedPhilId + "/description.md"
+    );
+  }
+  rightPanel.appendChild(md_block); */
 }
 
 /*
@@ -708,62 +791,6 @@ function changeState(destState, destPhilId) {
   } else {
     throw "Error: invalid destination state " + destState;
   }
-}
-
-function showSecondary(destPhilId) {
-  if (transitioning) return; // should the caller be responsible for this?
-  //if (destPhilId == selectedPhilId) destPhilId = null;
-  secondaryPhilId = destPhilId;
-  if (!destPhilId) {
-    //leftPanel.style.opacity = 0;
-    return;
-  }
-  const heading = document.querySelector("#right-panel > div:first-of-type");
-  const subheading = document.querySelector("#right-panel > h4:first-of-type");
-  const headCN = heading.querySelector(".cn");
-  const headEN = heading.querySelector(".en");
-
-  const view = philosopherMap[selectedPhilId].views[destPhilId];
-  const secondaryPhil = philosopherMap[destPhilId];
-
-  headCN.textContent = secondaryPhil.chineseName;
-  headCN.style.textShadow = schoolMap[secondaryPhil.school].color + " -2px 2px";
-  headEN.textContent = secondaryPhil.name;
-  removeAllParagraphs(rightPanel);
-  const md_block = document.createElement("md-block");
-  if (selectedPhilId != secondaryPhilId) {
-    md_block.setAttribute(
-      "src",
-      "descriptions/" +
-        selectedPhilId +
-        "/views/" +
-        secondaryPhilId +
-        "/description.md"
-    );
-
-    const md_quote = document.createElement("md-block");
-    md_quote.setAttribute(
-      "src",
-      "descriptions/" +
-        selectedPhilId +
-        "/views/" +
-        secondaryPhilId +
-        "/quote.md"
-    );
-    md_quote.className = "italic h4";
-
-    subheading.textContent = "";
-    subheading.appendChild(md_quote); //view.quote != "" ? '"' + view.quote + '"' : "";
-    subheading.classList.add("italic");
-  } else {
-    // otherwise it's the main philosopher and his full description
-    // !!! dates don't get restored rn
-    md_block.setAttribute(
-      "src",
-      "descriptions/" + selectedPhilId + "/description.md"
-    );
-  }
-  rightPanel.appendChild(md_block);
 }
 
 function onPointerDown(event) {

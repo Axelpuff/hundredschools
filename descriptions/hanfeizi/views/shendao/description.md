@@ -1,1 +1,3 @@
-Han Feizi agrees with Shen Dao that expecting the people to change is futile.
+Shen Dao is one of the philosophers who Han Feizi esteems the most highly. Like Shen Dao, Han Feizi seeks for the law to become natural and invisible. Han Feizi also agrees with Shen Dao that expecting the people to change is futile.
+
+Han Feizi defends Shen Dao from criticism in "Chapter Forty: A Critique of Positional Power", in which Han Feizi argues that the importance of virtue for successful rule does not even approach the significance of positional power (*shi*), which Shen Dao emphasized.
