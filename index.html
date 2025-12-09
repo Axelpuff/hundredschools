@@ -3,14 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Hundred Schools Explorer</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap"
       rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body data-bs-theme="dark">
@@ -19,16 +23,20 @@
       <div id="overlay"></div>
     </div>
     <div id="info-panels">
-      <button id="back-button" class="">Go back...</button>
+      <button id="about-button" class="glass-panel"><span>?</span></button>
+      <button id="back-button" class="glass-panel">Go back...</button>
       <div class="card glass-panel" id="right-panel">
         <div>
-            <span class="cn display-2"></span>
-            <span class="en h4 text-body-secondary"></span>
+          <span class="cn display-2"></span>
+          <span class="en h4 text-body-secondary"></span>
         </div>
         <h4></h4>
         <md-block></md-block>
       </div>
       <div class="panel" id="bottom-panel"></div>
+      <div class="card glass-panel" id="about-panel">
+        <md-block src="about.md"></md-block>
+      </div>
     </div>
     <div id="scroll-area"></div>
     <script type="importmap">

@@ -2,6 +2,6 @@
 - GSAP: for animations
 - Bootstrap: for CSS
 - Google Fonts: for fonts
-- Marked: for converting descriptions from markdown to HTML
+- md-block: for converting descriptions from markdown to HTML
 
 Import strategy: Whatever works!

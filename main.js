@@ -493,9 +493,11 @@ function removeAllParagraphs(domElement) {
 }
 
 const backButton = document.getElementById("back-button");
+const aboutButton = document.getElementById("about-button");
 const infoPanels = document.getElementById("info-panels");
 const rightPanel = document.getElementById("right-panel");
 const bottomPanel = document.getElementById("bottom-panel");
+const aboutPanel = document.getElementById("about-panel");
 const heading = rightPanel.querySelector("div");
 const subheading = rightPanel.querySelector("h4");
 const md_block = rightPanel.querySelector("md-block");
@@ -538,8 +540,8 @@ function fillPanes(perspectivePhil, secondaryPhil) {
   const mainPhil = secondaryPhil || perspectivePhil;
 
   // attempt to remove the last set philosopher's description
-  md_block.removeAttribute("rendered");
-  md_block.replaceChildren();
+  //md_block.removeAttribute("rendered");
+  
 
   // description
   md_block.setAttribute(
@@ -715,12 +717,14 @@ let secondaryPhilId = null; // selected philosopher when in perspective already,
 function changeState(destState, destPhilId) {
   if (transitioning) return; // should the caller be responsible for this?
   transitioning = true;
+  infoPanels.style.userSelect = "none";
   let tl = gsap.timeline({
     onComplete: () => {
       if (destState == "neutral") {
         restoreScroll();
       }
       transitioning = false;
+      infoPanels.style.userSelect = "";
       currentState = destState;
     },
   });
@@ -728,21 +732,31 @@ function changeState(destState, destPhilId) {
   let startTime = 0;
   if (currentState == "neutral") {
     saveScroll();
+    aboutButton.style.display = "none"; // currently only visible in neutral
   } else if (currentState == "perspective") {
     selectedPhilId = null;
     secondaryPhilId = null;
     resetFocusedOrbs(tl, startTime, resetDuration);
+    unblurBackground(tl, startTime, resetDuration);
     //startTime += resetDuration * 2;
     clearProps(orbPerspectiveAxis);
+    rightPanel.style.display = "none";
+    bottomPanel.style.display = "none";
+    backButton.style.display = "none";
+  } else if (currentState == "about") {
+    unblurBackground(tl, startTime, resetDuration);
+    backButton.style.top = "";
+    aboutPanel.style.display = "none";
+    backButton.style.display = "none";
   }
 
   if (destState == "neutral") {
     console.assert(currentState != "neutral");
     // tween camera to neutralPosZ
     modifyCamera(neutralPosZ, baseOrthoBoxHeight, tl, startTime, resetDuration);
-    unblurBackground(tl, startTime, resetDuration);
     // tween panes to transparency separately
-    infoPanels.style.display = "none";
+    
+    aboutButton.style.display = "flex";
   } else if (destState == "perspective") {
     console.assert(currentState != "intro");
     console.assert(destPhilId);
@@ -785,7 +799,15 @@ function changeState(destState, destPhilId) {
       );
     }
     fillPanes(selectedPhil);
-    infoPanels.style.display = "block";
+    backButton.style.display = "block";
+    rightPanel.style.display = "block";
+    bottomPanel.style.display = "flex"; // !!! icky weird manual setting here
+  } else if (destState == "about") {
+    console.assert(currentState != "perspective")
+    blurBackground(tl, startTime, blurDuration);
+    backButton.style.display = "block";
+    backButton.style.top = "0.3rem";
+    aboutPanel.style.display = "block";
   } else if (destState == "intro") {
     console.assert(currentState == "neutral");
   } else {
@@ -810,16 +832,27 @@ function onPointerDown(event) {
 }
 
 function onBackButtonPress(event) {
-  if (currentState == "neutral") {
+  if (currentState == "neutral") { // ??? This branch is currently inacessible (desiredly so)
     // go back to intro
   } else if (currentState == "perspective") {
     // go back to neutral
     selectedPhilId = null;
     changeState("neutral");
+  } else if (currentState == "about") {
+    // go back to neutral
+    changeState("neutral");
+  }
+}
+
+function onAboutButtonPress(event) {
+  if (currentState == "neutral") {
+    // go back to intro
+    changeState("about");
   }
 }
 window.addEventListener("pointerdown", onPointerDown);
 backButton.addEventListener("click", onBackButtonPress);
+aboutButton.addEventListener("click", onAboutButtonPress);
 
 // Hover handling
 const hoverTextDiv = document.getElementById("overlay");
