@@ -1,1 +1,1 @@
-Kongzi appears as a kind of straight man in many of Zhuangzi's dialogs. At times he seems to eloquently voice Zhuangzi's views about the sage; at other times he is short-sighted or makes blunders he immediately regrets.
+Kongzi (Confucius) appears as a kind of straight man in many of Zhuangzi's dialogs. At times he seems to eloquently voice Zhuangzi's views about the sage; at other times he is short-sighted or makes blunders he immediately regrets. Unlike Confucius' own followers, Zhuangzi does not hesitate to take Confucius up on his own admitted imperfection.

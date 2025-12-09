@@ -1,0 +1,1 @@
+*"So, we have the rights and wrongs of the Confucians and the Mohists. Each calls right what the other calls wrong and each calls wrong what the other calls right."* (*Zhuangzi* Chapter Two)

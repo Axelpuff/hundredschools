@@ -1,1 +1,1 @@
-*"TBA"*
+*"'It would be better to not have the *History* than to completely believe it. I accept only two or three passages in the "Completion of the War" chapter.'"* (*Mencius* 7B3)

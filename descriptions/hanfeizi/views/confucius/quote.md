@@ -1,0 +1,1 @@
+*"Kongzi was the greatest sage in the world. He traveled throughout the land within the Four Seas, cultivating his actions and clarifying the Way...people were pleased by his benevolence and praised his righteousness, and yet his disciples numbered only seventy."* (*Han Feizi*, Chapter Forty-Nine)

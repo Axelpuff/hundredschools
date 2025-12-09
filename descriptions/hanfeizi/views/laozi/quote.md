@@ -1,0 +1,1 @@
+*"The Way [of the ruler] lies in what cannot be seen; its use lies in what cannot be understood. Be empty and tranquil without engaging in affairs...Upon understanding others' words, do not change, do not transform..."*(*Han Feizi*, Chapter Five)

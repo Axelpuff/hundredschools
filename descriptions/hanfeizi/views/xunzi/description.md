@@ -1,0 +1,3 @@
+Han Feizi may have been a student of Xunzi, and this shows in Han Feizi's classical knowledge and their common appraisal of Confucius as the greatest sage. Even when Han Feizi's conclusion is very different, it sometimes reveals a common judgment: for example, Han Feizi's claim that virtue is unreliable to expect from rulers or subjects is founded on Xunzi's principle that goodness is not natural. Since goodness takes deliberate effort, how many people can be expected to put in that exertion?
+
+However, Han Feizi clearly did not buy in to the political theory Xunzi advocated for. His defense of Shen Dao seems to target the same critique that Xunzi leveled against him (i.e. that personal virtue is the most important for a ruler).

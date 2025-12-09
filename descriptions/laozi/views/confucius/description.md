@@ -1,1 +1,1 @@
-While the Laozi does not mention any other figures by name, it mentions ritual in a negative light as the lowest form of virtue.
+While the *Laozi* does not mention any other figures by name, it mentions ritual in a negative light as the lowest form of virtue. Real virtue (*de*) is achieved without striving after it through ritual practice.

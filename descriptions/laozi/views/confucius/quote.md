@@ -1,1 +1,1 @@
-*"TBA"*
+*"The rites are the wearing thin of loyalty and trust and the beginning of chaos."* (*Laozi*, Chapter Thirty-Eight)

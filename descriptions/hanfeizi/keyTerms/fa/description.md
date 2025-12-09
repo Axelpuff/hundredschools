@@ -1,1 +1,1 @@
-Law as the objective standard of governance.
+Han Feizi sees the law (*fa*) as the ruler's equivalent to a carpenter's compass or square. A skilled carpenter can estimate well, and yet he is still sure to use his tools rather than merely his own judgment. In the same way, the law provides a consistent standard and allows even mediocre rulers to rule correctly. Han Feizi's version of the law is not as uniformly brutal as Lord Shang's version, which produces resentment, but is aimed to be more invisible like Shen Dao's.

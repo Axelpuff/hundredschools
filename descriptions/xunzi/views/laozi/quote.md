@@ -1,1 +1,1 @@
-*"TBA"*
+*"Laozi saw the value of yielding, but did not see the value of exerting oneself."* (*Xunzi*, Chapter Seventeen)

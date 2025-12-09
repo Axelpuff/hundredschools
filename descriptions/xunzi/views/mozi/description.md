@@ -1,1 +1,1 @@
-Xunzi sees Mozi as focusing on material profit at the expense of the proper form of ritual, which has inherent value.
+Xunzi sees Mozi as fixated on making things uniform and useful, which are indeed parts of the Way. However, to Xunzi, proper form (such as ritual and the standards of righteousness) has inherent value apart from its immediate usefulness, and will produce some level of variety and difference by design.

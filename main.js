@@ -152,7 +152,7 @@ function get_orb_position(timePosition, string) {
 }
 
 // From Three.js canvas textures tutorial
-function makeLabelCanvas(size, name) {
+function makeLabelCanvas(size, name, color) {
   const borderSize = 2;
   const ctx = document.createElement("canvas").getContext("2d");
   const font = `${size}px Noto Serif TC`;
@@ -170,7 +170,7 @@ function makeLabelCanvas(size, name) {
 
   /* ctx.fillStyle = 'blue';
 		ctx.fillRect( 0, 0, width, height ); */
-  ctx.fillStyle = "white";
+  ctx.fillStyle = color || "white";
   ctx.fillText(name, borderSize, borderSize);
 
   return ctx.canvas;
@@ -182,7 +182,7 @@ const orbs = [];
 const orbMap = {};
 for (const philosopher of philosophers) {
   const color = philosopher.color || schoolMap[philosopher.school].color;
-  const timePosition = (philosopher.dates[0] + philosopher.dates[1]) / 2; // for now just take the average of the beginning and end
+  const timePosition = philosopher.timePosition || (philosopher.dates[0] + philosopher.dates[1]) / 2; // for now just take the average of the beginning and end
 
   const spheremat = new THREE.MeshBasicMaterial({ color: color });
   const orb = new THREE.Mesh(
@@ -192,7 +192,7 @@ for (const philosopher of philosophers) {
   orb.name = philosopher.id;
   orb.position.copy(get_orb_position(timePosition, philosopher.string));
 
-  const canvas = makeLabelCanvas(40, philosopher.chineseName[0]); // default to first character
+  const canvas = makeLabelCanvas(40, philosopher.chineseName[0], color == "white" ? "black" : "white"); // default to first character
   const texture = new THREE.CanvasTexture(canvas);
   // because our canvas is likely not a power of 2
   // in both dimensions set the filtering appropriately. (from tutorial)
@@ -233,6 +233,15 @@ function focusRelevantOrbs(philosopherId, views) {
   ); // !!! not great
   orbPerspectiveAxis.position.z = mainOrb.position.z;
   orbPerspectiveAxis.position.y = orbPerspectiveY;
+  // !!! jank
+  if (selectedPhilId == "hanfeizi") {
+    //orbPerspectiveAxis.rotation.x = renderer.time * 0.0001;
+    /* orbPerspectiveAxis.rotation.x = time * 0.0001;
+    orbPerspectiveAxis.rotation.y = time * 0.0001; */
+    //orbPerspectiveAxis.rotation.x = time * 0.001;
+    //orbPerspectiveAxis.updateMatrixWorld(true);
+    //console.log(orbPerspectiveAxis.position);
+  }
 }
 
 function repositionFocusedOrbs(
@@ -291,7 +300,7 @@ function resetFocusedOrbs(tl, startTime, duration) {
   for (let i = 0; i < focusedOrbs.length; i++) {
     const orb = focusedOrbs[i];
     const philosopher = philosopherMap[orb.name];
-    const timePosition = (philosopher.dates[0] + philosopher.dates[1]) / 2;
+    const timePosition = philosopher.timePosition || (philosopher.dates[0] + philosopher.dates[1]) / 2;
     const targetWorldPos = get_orb_position(timePosition, philosopher.string);
 
     scene.attach(orb);
@@ -395,7 +404,8 @@ function makeProps(props, axis, timeline, startTime) {
             arrow.visible = true;
           },
           onUpdate: () => {
-            arrow.setLength(arrowState.length);
+            arrow.setLength(arrowState.length, properties.headLength,
+        properties.headWidth);
           },
         },
         startTime + i * 0.25
@@ -557,8 +567,9 @@ function fillPanes(perspectivePhil, secondaryPhil) {
   rightPanel.scroll(0, 0);
 
   // title
+  const color = mainPhil.color || schoolMap[mainPhil.school].color;
   headCN.textContent = mainPhil.chineseName;
-  headCN.style.textShadow = schoolMap[mainPhil.school].color + " -5px 5px";
+  headCN.style.textShadow = color + " -5px 5px";
   headEN.textContent = mainPhil.name;
 
   // subtitle
@@ -954,6 +965,12 @@ function animate(time) {
     orbPerspectiveAxis.rotation.x = time * 0.0001;
     orbPerspectiveAxis.rotation.y = time * 0.0001;
     orbPerspectiveAxis.rotation.z = time * 0.0001;
+    //orbPerspectiveAxis.updateMatrixWorld(true);
+    //console.log(orbPerspectiveAxis.position);
+  } else if (selectedPhilId == "hanfeizi") {
+    /* orbPerspectiveAxis.rotation.x = time * 0.0001;
+    orbPerspectiveAxis.rotation.y = time * 0.0001; */
+    orbPerspectiveAxis.rotation.x = time * 0.0001;
     //orbPerspectiveAxis.updateMatrixWorld(true);
     //console.log(orbPerspectiveAxis.position);
   }

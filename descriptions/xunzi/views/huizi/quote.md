@@ -1,1 +1,1 @@
-*"TBA"*
+*"Huizi was fixated on wording and did not understand the value of what is substantial."* (*Xunzi* Chapter Twenty-One)

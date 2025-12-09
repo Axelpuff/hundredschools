@@ -1,1 +1,1 @@
-*"Master Bright Works playing his lute, Huizi leaning at his desk: none achieved greater than these..."*
+*"Bright Works playing his lute, Shi Kuang holding his baton, Huizi leaning on his desk: the knowledge of these three masters was almost perfect..."* (*Zhuangzi* Chapter Two)

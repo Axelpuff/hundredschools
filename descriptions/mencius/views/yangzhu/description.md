@@ -1,1 +1,1 @@
-Mencius saw Yang Zhu as going wrong, but precisely in the opposite direction of Mozi. Yang Zhu's unrestrained sanctioning of following one's nature is dangerous, as the sprouts of virtue require intentional care.
+Mencius implicitly agreed with Yang Zhu by treated human nature (*xing*) as something that can be known and discussed. However, he saw Yang Zhu as misguiding the people precisely in the opposite direction of Mozi. Yang Zhu's unrestrained sanctioning of following one's nature will lead to neglect of one's sprouts of goodness and disregard for social order.

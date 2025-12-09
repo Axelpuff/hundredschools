@@ -1,0 +1,1 @@
+Zhuangzi uses *shi* and *fei* to refer to "right" and "wrong", concepts which he plays with and critiques. To him, there is no fixed right and wrong. Different species desire and reject different things, the Mohists and Confucians argue endlessly, and debates usually create more confusion rather than reveal that one person is correct.

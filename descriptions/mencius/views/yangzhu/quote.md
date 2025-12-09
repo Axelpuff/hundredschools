@@ -1,1 +1,1 @@
-*"TBA"*
+*"'Yang Zhu favored being "for ourselves." If plucking out one hair from his body would have benefited the whole world, he would not do it.'"* (*Mencius* 7A26)

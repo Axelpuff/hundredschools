@@ -1,1 +1,1 @@
-Clear, public, strict laws.
+*Fa* translates to "law", a core component of Lord Shang's system. The consequences of violating the law should be tangible and fearsome. Han Feizi would later consider this strong law to be Lord Shang's key contribution. 

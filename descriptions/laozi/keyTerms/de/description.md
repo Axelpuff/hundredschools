@@ -1,1 +1,1 @@
-De, often appearing as "enigmatic virtue" in the Laozi, reaches its highest form in simplicity, not in cleverness, education, or learning. Ritual and duty is the form it takes when it has declined.
+*De*, often appearing as "enigmatic virtue" in the Laozi, reaches its highest form in simplicity, not in cleverness, education, or learning. Ritual and duty is the form it takes when it has declined.

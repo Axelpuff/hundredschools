@@ -1,1 +1,1 @@
-*"TBA"*
+*"'...Since humans were first born there has never been another Kongzi [Confucius].''"* (*Mencius* 2A2)

@@ -1,1 +1,1 @@
-*"The sprouts of goodness are all tangled..."*
+*"From where I see it, the sprouts of benevolence and righteousness and the pathways of right and wrong are all snarled and jumbled."* (*Zhuangzi* Chapter Two)

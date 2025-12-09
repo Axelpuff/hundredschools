@@ -1,1 +1,1 @@
-*"Human nature is bad."*
+*"Mengzi says: When people engage in learning, this manifests the goodness of their nature. I say: This is not so."* (*Xunzi*, "Chapter Twenty-Three: Human Nature is Bad")

@@ -1,1 +1,1 @@
-Administrative methods and control.
+Administrative methods, or *shu*, are essential in Han Feizi's system. He argues that if ministers are not held to specific roles, they will learn the ruler's tendencies, use them to manipulate him, and eventually overthrow him. Instead, the ruler uses clear standards to compare name and form (*ming* and *xing*) and keep his ministers in line.

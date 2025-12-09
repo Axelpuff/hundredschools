@@ -1,1 +1,1 @@
-*"TBA"*
+*"Mengzi answered, 'Gaozi said, "What you do not get from doctrines, do not seek for in your heart. What you do not get from your heart, do not seek for in the *qi*." [The second part] is acceptable. [The first part] is unacceptable.'"* (*Mencius* 2A2)

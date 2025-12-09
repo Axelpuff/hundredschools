@@ -1,1 +1,1 @@
-*"Mozi focused on profit, but did not understand proper form."*
+*"Mozi was fixated on the useful and did not understand the value of good form."* (*Xunzi*, Chapter Twenty-One)

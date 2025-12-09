@@ -1,1 +1,1 @@
-Xunzi writes that Laozi understood the virtue of not acting, but did not understand the role of intentional action.
+Xunzi writes that Laozi understood the virtue of not acting, but did not understand the role of intentional effort. His explanation is that if nobody ever exerts themselves, the good and bad will never be distinguished from one another.

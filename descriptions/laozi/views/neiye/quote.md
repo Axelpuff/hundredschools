@@ -1,1 +1,1 @@
-*"TBA"*
+*"Heaven attained the One and became pure; / Earth attained the One and became settled; / The Spirits attained the One and became numinous..."* (*Laozi*, Chapter Thirty-Nine). (Compare *Neiye* Chapter One.)

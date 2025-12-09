@@ -1,1 +1,1 @@
-Mozi critiques Confucius harshly to the point of disrespect. He interprets Confucius' love of music as a love of excess and Confucius' praise of filial piety over state loyalty as a violation of impartial caring.
+Mozi critiques Confucius harshly to the point of disrespect. He interprets the Confucian love of music as a love of excess and praise of filial piety over state loyalty as a violation of impartial caring. In addition, he cites stories about Confucius to directly attack his moral character.

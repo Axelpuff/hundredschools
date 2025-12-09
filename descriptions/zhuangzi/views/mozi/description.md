@@ -1,0 +1,1 @@
+Zhuangzi does not talk about Mozi at length, preferring the character of Confucius. But as many of the later thinkers would do, he presents the Confucians and Mohists as two sides of the same coin, locked in an endless, futile debate about the details of virtue.

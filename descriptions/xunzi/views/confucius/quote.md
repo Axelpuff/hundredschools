@@ -1,1 +1,1 @@
-*"TBA"*
+*"Kongzi was benevolent, wise, and was not fixated, and so through his study of various methods, he was worthy of being one of the former kings. His one line alone grasped the way of the Zhou and upheld and used it..."* (*Xunzi*, Chapter Twenty-One)

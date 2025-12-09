@@ -1,1 +1,1 @@
-*"TBA"*
+*"Zhuangzi was fixated on the Heavenly and did not understand the value of the human."* (*Xunzi* Chapter Twenty-One)

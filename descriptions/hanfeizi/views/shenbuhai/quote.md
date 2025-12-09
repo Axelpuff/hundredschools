@@ -1,0 +1,1 @@
+*"Someone asked, 'As for the words of Shen Buhai and Gongsun Yang, between the two, which is more critical for the state?' In response, I saw, 'They cannot be measured [against one another]."* (*Han Feizi*, Chapter Forty-Three)

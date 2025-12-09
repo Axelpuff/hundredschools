@@ -1,1 +1,1 @@
-Mencius takes a critical attitude towards the Classics. While still using them as a source of argumentation, Mencius clearly states his disbelief in a literal reading of the History.
+Mencius takes a critical attitude towards the Classics. While still using them as a source of argumentation, Mencius clearly states his disbelief in a literal reading of the History. His preference is the *Spring and Autumn Annals*, which he cites as one of Confucius' most important works.

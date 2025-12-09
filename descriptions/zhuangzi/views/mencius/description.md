@@ -1,1 +1,1 @@
-TBA
+Zhuangzi makes what appear to be subtle jabs at Mencius. For example, the above quote twists Mencius' sprout analogy with regard to differing standards of morality; people's sprouts grow in different directions and get tangled. In addition, the scene of Lord Wenhui learning the Way from his butcher (in Chapter Three) contradicts Mencius claim that "gentlemen keep their distance from the kitchen"(*Mencius*, 1A7). Zhuangzi's attitude would make sense, considering that Mencius' thought could be seen as an even more narrow derivative of Confucius' ideas.

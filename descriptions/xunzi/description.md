@@ -1,1 +1,5 @@
-TBA
+Xunzi was a philosopher from the late fourth century BCE who may have lived to see the unification of China and the end of the Warring States period. In his time, he was a preeminent thinker and the leading interpreter of Confucius.
+
+Xunzi had nearly every previous thinker within his purview. But unlike Zhuangzi, his synthesis insisted that one of them had gotten everything right: Confucius. Every other thinker had seized on some corner of Confucius' Way and elaborated it to the extreme, losing sight of it in the process. Xunzi praised Confucian ritual as the guideline that gives proper measure to natural human attitudes, without which human nature descends into chaos. He underscored the importance of "standards of righteousness" that define the role-based duties and obligations of each person. But Xunzi was also flexible and willing to mix Confucian traditions with the emerging meritocratic methods of his time. He was not an arch-conservative fixated on the past; rather, he aimed to develop new systems that united Confucianism with present realities.
+
+Xunzi's conclusion is an archetypal model of philosophy and of life, one in which a perfect ideal exists and everything else is oriented relative to it. His writing is filled with a deep love for the social harmony that a Confucian system, with its rituals and social roles, can produce.

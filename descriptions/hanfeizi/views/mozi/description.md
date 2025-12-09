@@ -1,0 +1,1 @@
+As a student of Xunzi, Han Feizi has no special respect for the Mohists. He simply treats them as a foil to the Confucians in the same manner as Zhuangzi or Lord Shang. Neither's claims can ever be proved or disproved; the debating scholars merely waste the resources of the state and create chaos.

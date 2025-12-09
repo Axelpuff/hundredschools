@@ -1,0 +1,1 @@
+*"Kongzi and Mozi both followed the Way of Yao and Shun, but the doctrines that each accepted and rejected were not the same. They each said that they were the true representatives of Yao and Shun. Yao and Shun cannot be brought back from the dead, so who should decide whether the Confucians or the Mohists are correct?"* (*Han Feizi*, Chapter Fifty)

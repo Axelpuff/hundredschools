@@ -1,1 +1,1 @@
-*"TBA"*
+*"Shenzi was fixated on laws and did not understand the value of having worthy people."* (*Xunzi*, Chapter Twenty-One)

@@ -1,1 +1,1 @@
-*"This would make Huang Di’s ears ring. How could Kongzi understand it?"*
+*"'This would make Huang Di’s ears ring. How could Kongzi understand it?'"* (*Zhuangzi* Chapter Two)

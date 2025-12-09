@@ -1,1 +1,1 @@
-Power/authority of position.
+*Shi*, or positional power, is the true basis of rule in Han Feizi's system. A ruler's positional power is measured by their ability to use the "two handles" of reward and punishment on their ministers and subjects. Rather than qualities like benevolence or righteousness, whether a ruler keeps control of their positional power overwhelmingly determines whether they maintain their rule.

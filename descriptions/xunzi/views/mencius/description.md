@@ -1,1 +1,3 @@
-Xunzi sees Mencius' description of human nature as dangerous. Implying that goodness comes about naturally, like sprouts growing, will cause people to mistakenly neglect the difficult task of self-cultivation.
+Xunzi sees Mencius' description of human nature as dangerous. He draws a line between things that are worked at rather than automatically ("naturally") bestowed, and goodness falls within the former. Implying that goodness comes about naturally, like sprouts growing, will cause people to mistakenly neglect the difficult task of self-cultivation.
+
+In general, Xunzi does not understand human nature as accounting for the totality of human behavior, and answers objections that seem to hold a different stance on this assumption in weird ways. To Xunzi, intentional effort is something entirely disjoint from human nature. 

@@ -1,1 +1,1 @@
-*"When Laozi died..."*
+*"When Laozi died, Qin Shi went to mourn him, cried three times, and left. A student asked, 'Weren't you our teacher's friend?'"* (*Zhuangzi* Chapter Three)

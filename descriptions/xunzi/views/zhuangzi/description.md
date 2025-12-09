@@ -1,1 +1,3 @@
-Xunzi writes that Zhuangzi wrote about Heaven's perspective while neglecting the essential human perspective.
+Xunzi writes that Zhuangzi tried to take Heaven's perspective, while in reality it is unwise and irresponsible to neglect the human perspective. Humans have a specific role within the cosmos, which they play well by living by ritual and the standards of righteousness.
+
+However, Xunzi takes insight from Zhuangzi when he claims that "names have no predetermined appropriateness"(*Xunzi*, Chapter Twenty-Two). However, Xunzi takes this to mean that names are decided by custom to be useful, not as revealing the relativity of good and bad.

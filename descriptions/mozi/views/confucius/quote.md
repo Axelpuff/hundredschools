@@ -1,1 +1,1 @@
-*"That fellow Kong Qiu..."*
+*"This is the Way of the gentleman. What I have heard of the conduct of [this fellow] Kong Qiu is fundamentally and diametrically opposed to this."* (*Mozi*, "Chapter Thirty-Nine: Against Confucianism")

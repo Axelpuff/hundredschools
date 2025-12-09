@@ -1,1 +1,1 @@
-*"TBA"*
+*"'If a doctrine does not lean toward Yang, then it leans toward Mo. Yang is "for ourselves". This is to not have a ruler. Mo is "impartial caring." This is to not have a father.'"* (*Mencius* 3B9)
