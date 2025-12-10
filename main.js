@@ -968,11 +968,11 @@ function animate(time) {
     //orbPerspectiveAxis.updateMatrixWorld(true);
     //console.log(orbPerspectiveAxis.position);
   } else if (selectedPhilId == "hanfeizi") {
-    /* orbPerspectiveAxis.rotation.x = time * 0.0001;
-    orbPerspectiveAxis.rotation.y = time * 0.0001; */
-    orbPerspectiveAxis.rotation.x = time * 0.0001;
-    //orbPerspectiveAxis.updateMatrixWorld(true);
-    //console.log(orbPerspectiveAxis.position);
+    if (vertical) {
+      orbPerspectiveAxis.rotation.y = time * 0.0001;
+    } else {
+      orbPerspectiveAxis.rotation.x = time * 0.0001;
+    }
   }
   renderHoveredPhil();
   renderer.render(scene, camera);
